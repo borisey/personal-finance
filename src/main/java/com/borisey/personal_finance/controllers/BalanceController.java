@@ -45,7 +45,7 @@ public class BalanceController {
     }
 
     @PostMapping("/balance/add-expense")
-    public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, LocalDateTime date, Float amount) {
+    public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
         // Привожу строку с датой к формату LocalDateTime
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateFormatted = LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
