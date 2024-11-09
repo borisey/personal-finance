@@ -18,7 +18,7 @@ public class BalanceController {
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
 
-        // Привожу строку с датой к формату LocalDateTime
+        // Привожу строку с датой к формату LocalDateTime todo дублирование
         DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
         LocalDateTime dateFormatted = LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
 
@@ -28,7 +28,7 @@ public class BalanceController {
         balance.setAccountId(accountId);
         balance.setAmount(amount);
         balance.setDate(dateFormatted);
-        balance.setTypeId((byte) 1);
+        balance.setTypeId((byte) 1); // todo доход сделать константу
 
         // todo передавать ID реального пользователя
         balance.setUserId(1L);
@@ -46,6 +46,28 @@ public class BalanceController {
 
     @PostMapping("/balance/add-expense")
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, LocalDateTime date, Float amount) {
+        // Привожу строку с датой к формату LocalDateTime
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+        LocalDateTime dateFormatted = LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
+
+        Balance balance = new Balance();
+
+        balance.setCategoryId(categoryId);
+        balance.setAccountId(accountId);
+        balance.setAmount(amount);
+        balance.setDate(dateFormatted);
+        balance.setTypeId((byte) 2); // todo расход сделать константу
+
+        // todo передавать ID реального пользователя
+        balance.setUserId(1L);
+
+        // Сохраняю дату и время
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        balance.setCreated(currentDateTime);
+        balance.setUpdated(currentDateTime);
+
+        // todo сделать проверку, что запись не вносится повторно
+        balanceRepository.save(balance);
 
         return "redirect:/";
     }
