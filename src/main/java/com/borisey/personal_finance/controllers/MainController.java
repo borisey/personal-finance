@@ -24,7 +24,7 @@ public class MainController {
     public String accountAdd(@CookieValue(value = "UUID", defaultValue = "") String UUID, Model model) {
 
         model.addAttribute("UUID", UUID);
-        return "account-add";
+        return "home";
     }
 
     @GetMapping("/logout")
@@ -37,7 +37,7 @@ public class MainController {
         cookie.setPath("/");
         response.addCookie(cookie);
 
-        return "account-add";
+        return "home";
     }
 
     @GetMapping("/login")
