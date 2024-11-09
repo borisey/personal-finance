@@ -28,10 +28,12 @@ public class MainController {
     public String accountAdd(Model model) {
 
         // Передаю в вид все категории доходов
+        // todo передавать ID реального пользователя
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 1);
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид все категории расходов
+        // todo передавать ID реального пользователя
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 2);
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
