@@ -85,7 +85,29 @@
         <div class="row">
             <h2 style="text-align: center">Транзакции</h2>
 
+            <h3 style="text-align: center">Все транзакции</h3>
 
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Сумма</th>
+                        <th>Категория</th>
+                        <th>Дата</th>
+                        <th>Тип</th>
+                        <th>Счет</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="userTransaction : ${allUserTransactions}">
+                        <td th:text="${userTransaction.amount}"/>
+                        <td th:text="${userTransaction.categoryId}"/>
+                        <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
+                        <td th:text="${userTransaction.typeId}"/>
+                        <td th:text="${userTransaction.accountId}"/>
+                    </tr>
+                </tbody>
+            </table>
 
             <div class="col">
                 <h2 style="text-align: center">
