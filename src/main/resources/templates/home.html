@@ -91,12 +91,16 @@
                 <h3>Добавить доход</h3>
                 <form action="/balance/add-income" method="post">
 
-                    <select class="form-control" id="addIncome" name="categoryId">
+                    <select class="form-control" id="addIncomeCategoryId" name="categoryId">
                         <option value="">--Выберите категорию расхода--</option>
                         <option th:each="userIncomeCategory : ${allUserIncomeCategories}" th:value="${userIncomeCategory.id}" th:text="${userIncomeCategory.title}"></option>
                     </select><br>
 
-                    <input type="text" name="fullUrl" placeholder="Выберите счет поступления" class="form-control"><br>
+                    <select class="form-control" id="addIncomeAccountId" name="accountId">
+                        <option value="">--Выберите счет поступления--</option>
+                        <option th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
+                    </select><br>
+
                     <input type="text" name="fullUrl" placeholder="Выберите дату поступления" class="form-control"><br>
                     <input type="text" name="fullUrl" placeholder="Введите сумму поступления" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить доход</button>
@@ -112,12 +116,16 @@
                 <h3>Добавить расход</h3>
                 <form action="/balance/add-expense" method="post">
 
-                    <select class="form-control" id="addExpenses" name="categoryId">
+                    <select class="form-control" id="addExpenseCategoryId" name="categoryId">
                         <option value="">--Выберите категорию расхода--</option>
-                        <option th:each="userExpensesCategory : ${allUserExpensesCategories}" th:value="${userExpensesCategory.id}" th:text="${userExpensesCategory.title}"></option>
+                        <option th:each="userExpenseCategory : ${allUserExpensesCategories}" th:value="${userExpenseCategory.id}" th:text="${userExpenseCategory.title}"></option>
                     </select><br>
 
-                    <input type="text" name="fullUrl" placeholder="Выберите счет списания" class="form-control"><br>
+                    <select class="form-control" id="addExpenseAccountId" name="accountId">
+                        <option value="">--Выберите счет списания--</option>
+                        <option th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
+                    </select><br>
+
                     <input type="text" name="fullUrl" placeholder="Выберите дату списания" class="form-control"><br>
                     <input type="text" name="fullUrl" placeholder="Введите сумму списания" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить расход</button>
