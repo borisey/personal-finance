@@ -19,15 +19,21 @@ public class Balance {
 
     private Long user_id, parent_id, category_id;
 
-    // Сумма поступления или списания
-    private Float amount;
-
     // Тип (доходы или расходы)
     private Byte type_id;
 
+    // Дата пополнения или списания (выбирается пользователем)
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime date;
+
+    // Сумма поступления или списания
+    private Float amount;
+
+    // Дата создания записи (заполняется автоматически)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;
 
+    // Дата обновления записи (заполняется автоматически)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime updated;
 

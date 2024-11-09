@@ -17,6 +17,7 @@ public class Category {
 
     private String title;
 
+    // Может быть родительская категория и подкатегории
     private Long user_id, parent_id;
 
     // Тип категории (доходы или расходы)
