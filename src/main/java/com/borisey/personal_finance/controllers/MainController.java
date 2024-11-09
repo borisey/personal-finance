@@ -1,5 +1,6 @@
 package com.borisey.personal_finance.controllers;
 
+import com.borisey.personal_finance.models.Account;
 import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.AccountRepository;
@@ -27,66 +28,28 @@ public class MainController {
     @GetMapping("/")
     public String accountAdd(Model model) {
 
+        // Категории
+
         // Передаю в вид все категории доходов
         // todo передавать ID реального пользователя
+        // todo сделать сортировку
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 1);
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид все категории расходов
         // todo передавать ID реального пользователя
+        // todo сделать сортировку
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 2);
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
-        return "home";
-    }
+        // Счета
 
-    @GetMapping("/logout")
-    public String logout(HttpServletResponse response, Model model) {
-
-        Cookie cookie = new Cookie("UUID", "");
-        cookie.setMaxAge(0);
-        cookie.setSecure(true);
-        cookie.setHttpOnly(true);
-        cookie.setPath("/");
-        response.addCookie(cookie);
+        // Передаю в вид все счета пользователя
+        // todo передавать ID реального пользователя
+        // todo сделать сортировку
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(1L);
+        model.addAttribute("allUserAccounts", allUserAccounts);
 
         return "home";
-    }
-
-    @GetMapping("/login")
-    public String login(@CookieValue(value = "UUID", defaultValue = "") String UUID, HttpServletResponse response, Model model) {
-
-        if (!Objects.equals(UUID, "")) {
-            return "redirect:/";
-        }
-
-        return "login";
-    }
-
-    @PostMapping("/login")
-    public String login(HttpServletResponse response, @RequestParam String UUID, Model model) {
-        User userIdentity = userRepository.findByUUID(UUID);
-
-        if (userIdentity == null) {
-            return "redirect:/auth-failed";
-        } else {
-            Cookie cookie = new Cookie("UUID", UUID);
-            cookie.setPath("/");
-            response.addCookie(cookie);
-
-            return "redirect:/auth-success";
-        }
-    }
-
-    @GetMapping("/auth-failed")
-    public String authFailed(HttpServletResponse response, Model model) {
-        return "auth-failed";
-    }
-
-    @GetMapping("/auth-success")
-    public String authSuccess(@CookieValue(value = "UUID", defaultValue = "") String UUID, HttpServletResponse response, Model model) {
-
-        model.addAttribute("UUID", UUID);
-        return "auth-success";
     }
 }

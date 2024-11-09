@@ -1,31 +1,12 @@
 package com.borisey.personal_finance.controllers;
 
-import com.borisey.personal_finance.models.Account;
 import com.borisey.personal_finance.models.Category;
-import com.borisey.personal_finance.models.User;
-import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
-import com.borisey.personal_finance.repo.UserRepository;
 import jakarta.annotation.Nullable;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
-
-import java.net.URI;
-import java.text.ParseException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
 
 @Controller
 public class CategoryController {
