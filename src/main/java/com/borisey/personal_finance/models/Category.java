@@ -15,6 +15,20 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String title;
+
+    // Может быть родительская категория и подкатегории
+    private Long userId, parentId;
+
+    // Тип категории (доходы или расходы)
+    private Byte typeId;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime created;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updated;
+
     public Category() {
     }
 
@@ -73,19 +87,5 @@ public class Category {
     public void setUpdated(LocalDateTime updated) {
         this.updated = updated;
     }
-
-    private String title;
-
-    // Может быть родительская категория и подкатегории
-    private Long userId, parentId;
-
-    // Тип категории (доходы или расходы)
-    private Byte typeId;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime created;
-
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime updated;
 
 }

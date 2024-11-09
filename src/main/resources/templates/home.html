@@ -33,6 +33,12 @@
             </h2>
 
             <div class="col">
+
+                <h3>Все категории доходов</h3>
+                <div th:each="userIncomeCategory : ${allUserIncomeCategories}">
+                    <p th:text="${userIncomeCategory.title}" />
+                </div>
+
                 <h3>Добавить категорию доходов</h3>
                 <form action="/category/add" method="post">
                     <input type="text" name="title" placeholder="Введите название категории (зарплата, вклад, инвестиции)" class="form-control"><br>
@@ -43,6 +49,11 @@
             </div>
 
             <div class="col">
+                <h3>Все категории расходов</h3>
+                <div th:each="userExpenseCategory : ${allUserExpensesCategories}">
+                    <p th:text="${userExpenseCategory.title}" />
+                </div>
+
                 <h3>Добавить категорию расходов</h3>
                 <form action="/category/add" method="post">
                     <input type="text" name="title" placeholder="Введите название категории (еда, одежда, развлечения)" class="form-control"><br>

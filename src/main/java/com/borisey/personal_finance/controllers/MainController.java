@@ -1,7 +1,9 @@
 package com.borisey.personal_finance.controllers;
 
+import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.AccountRepository;
+import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.UserRepository;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
@@ -19,11 +21,20 @@ public class MainController {
     private AccountRepository accountRepository;
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     @GetMapping("/")
-    public String accountAdd(@CookieValue(value = "UUID", defaultValue = "") String UUID, Model model) {
+    public String accountAdd(Model model) {
 
-        model.addAttribute("UUID", UUID);
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 1);
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
+
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(1L, (byte) 2);
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
         return "home";
     }
 
