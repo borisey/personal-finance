@@ -89,11 +89,16 @@
                 </h2>
 
                 <h3>Добавить доход</h3>
-                <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Выберите категорию" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Выберите счет" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Выберите дату" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Введите сумму" class="form-control"><br>
+                <form action="/balance/add-income" method="post">
+
+                    <select class="form-control" id="addIncome" name="categoryId">
+                        <option value="">--Выберите категорию расхода--</option>
+                        <option th:each="userIncomeCategory : ${allUserIncomeCategories}" th:value="${userIncomeCategory.id}" th:text="${userIncomeCategory.title}"></option>
+                    </select><br>
+
+                    <input type="text" name="fullUrl" placeholder="Выберите счет поступления" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите дату поступления" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите сумму поступления" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить доход</button>
                 </form>
 
@@ -105,11 +110,16 @@
                 </h2>
 
                 <h3>Добавить расход</h3>
-                <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Выберите категорию" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Выберите счет" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Выберите дату" class="form-control"><br>
-                    <input type="text" name="fullUrl" placeholder="Введите сумму" class="form-control"><br>
+                <form action="/balance/add-expense" method="post">
+
+                    <select class="form-control" id="addExpenses" name="categoryId">
+                        <option value="">--Выберите категорию расхода--</option>
+                        <option th:each="userExpensesCategory : ${allUserExpensesCategories}" th:value="${userExpensesCategory.id}" th:text="${userExpensesCategory.title}"></option>
+                    </select><br>
+
+                    <input type="text" name="fullUrl" placeholder="Выберите счет списания" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите дату списания" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите сумму списания" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить расход</button>
                 </form>
             </div>
