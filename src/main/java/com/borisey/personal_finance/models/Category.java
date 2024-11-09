@@ -15,6 +15,8 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
+    private String title;
+
     private Long user_id, parent_id;
 
     // Тип категории (доходы или расходы)
