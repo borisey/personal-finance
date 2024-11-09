@@ -6,5 +6,5 @@ import org.springframework.data.repository.CrudRepository;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Iterable<Category> findAll(Sort colName);
-    Iterable<Category> findByUserIdAndTypeId(Long userId, Byte typeId);
+    Iterable<Category> findByUserIdAndTypeId(Long userId, Byte typeId, Sort colName);
 }

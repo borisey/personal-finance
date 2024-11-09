@@ -14,11 +14,13 @@ public class AccountController {
     private AccountRepository accountRepository;
 
     @PostMapping("/account/add")
-    public String accountAccountAdd(@RequestParam String title) {
+    public String accountAccountAdd(@RequestParam String title, Float amount) {
         Account account = new Account();
 
         // todo сделать проверку, что запись с таким названием не вносится повторно
         account.setTitle(title);
+
+        account.setAmount(amount);
 
         // todo передавать ID реального пользователя
         account.setUserId(1L);
