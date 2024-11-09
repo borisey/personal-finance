@@ -15,6 +15,7 @@ public class BalanceController {
     @Autowired
     private BalanceRepository balanceRepository;
 
+    // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
 
@@ -44,6 +45,7 @@ public class BalanceController {
         return "redirect:/";
     }
 
+    // Списание
     @PostMapping("/balance/add-expense")
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
         // Привожу строку с датой к формату LocalDateTime
@@ -54,6 +56,8 @@ public class BalanceController {
 
         balance.setCategoryId(categoryId);
         balance.setAccountId(accountId);
+
+        amount *= -1;
         balance.setAmount(amount);
         balance.setDate(dateFormatted);
         balance.setTypeId((byte) 2); // todo расход сделать константу
