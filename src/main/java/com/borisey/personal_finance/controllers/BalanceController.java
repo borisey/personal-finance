@@ -18,17 +18,11 @@ public class BalanceController {
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
-
-        // Привожу строку с датой к формату LocalDateTime todo дублирование
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateFormatted = LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
-
         Balance balance = new Balance();
-
         balance.setCategoryId(categoryId);
         balance.setAccountId(accountId);
         balance.setAmount(amount);
-        balance.setDate(dateFormatted);
+        balance.setDate(formatDate(date));
         balance.setTypeId((byte) 1); // todo доход сделать константу
 
         // todo передавать ID реального пользователя
@@ -48,18 +42,13 @@ public class BalanceController {
     // Списание
     @PostMapping("/balance/add-expense")
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
-        // Привожу строку с датой к формату LocalDateTime
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-        LocalDateTime dateFormatted = LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
-
         Balance balance = new Balance();
 
         balance.setCategoryId(categoryId);
         balance.setAccountId(accountId);
 
-        amount *= -1;
-        balance.setAmount(amount);
-        balance.setDate(dateFormatted);
+        balance.setAmount(-amount); // Списание с отрицательным знаком
+        balance.setDate(formatDate(date));
         balance.setTypeId((byte) 2); // todo расход сделать константу
 
         // todo передавать ID реального пользователя
@@ -74,6 +63,13 @@ public class BalanceController {
         balanceRepository.save(balance);
 
         return "redirect:/";
+    }
+
+    // Привожу строку с датой к формату LocalDateTime
+    public LocalDateTime formatDate(String date) {
+        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+        return LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
     }
 
 }
