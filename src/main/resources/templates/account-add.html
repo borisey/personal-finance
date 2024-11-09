@@ -35,7 +35,7 @@
             <div class="col">
                 <h3>Добавить категорию доходов</h3>
                 <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Введите название категории" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите название категории (зарплата, вклад, инвестиции)" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить категорию доходов</button>
                 </form>
 
@@ -44,7 +44,7 @@
             <div class="col">
                 <h3>Добавить категорию расходов</h3>
                 <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Введите название категории" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите название категории (еда, одежда, развлечения)" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить категорию расходов</button>
                 </form>
             </div>
@@ -56,8 +56,8 @@
 
         <h3>Добавить счет</h3>
         <form action="/account/add" method="post">
-            <input type="text" name="fullUrl" placeholder="Введите название счета" class="form-control"><br>
             <input type="text" name="fullUrl" placeholder="Выберите категорию" class="form-control"><br>
+            <input type="text" name="fullUrl" placeholder="Введите название счета (карта Сбера, вклад в Сбере, инвестиционный счет)" class="form-control"><br>
             <button type="submit" class="btn btn-success">Добавить счет</button>
         </form>
 
@@ -69,8 +69,10 @@
 
                 <h3>Добавить доход</h3>
                 <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Введите наименование дохода" class="form-control"><br>
                     <input type="text" name="fullUrl" placeholder="Выберите категорию" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите счет" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите дату" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите сумму" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить доход</button>
                 </form>
 
@@ -83,8 +85,10 @@
 
                 <h3>Добавить расход</h3>
                 <form action="/account/add" method="post">
-                    <input type="text" name="fullUrl" placeholder="Введите наименование расхода" class="form-control"><br>
                     <input type="text" name="fullUrl" placeholder="Выберите категорию" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите счет" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Выберите дату" class="form-control"><br>
+                    <input type="text" name="fullUrl" placeholder="Введите сумму" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Добавить расход</button>
                 </form>
             </div>
