@@ -1,19 +1,24 @@
 package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.Balance;
+import com.borisey.personal_finance.models.Type;
 import com.borisey.personal_finance.repo.BalanceRepository;
+import com.borisey.personal_finance.repo.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.Optional;
 
 @Controller
 public class BalanceController {
 
     @Autowired
     private BalanceRepository balanceRepository;
+    @Autowired
+    private TypeRepository typeRepository;
 
     // Пополнение
     @PostMapping("/balance/add-income")
@@ -23,7 +28,9 @@ public class BalanceController {
         balance.setAccountId(accountId);
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
-//        balance.setTypeId((byte) 1); // todo доход сделать константу
+
+        Type type = typeRepository.findById(1L).orElseThrow(); // todo доход сделать константу
+        balance.setType(type);
 
         // todo передавать ID реального пользователя
         balance.setUserId(1L);
@@ -49,7 +56,9 @@ public class BalanceController {
 
         balance.setAmount(-amount); // Списание с отрицательным знаком
         balance.setDate(formatDate(date));
-//        balance.setTypeId((byte) 2); // todo расход сделать константу
+
+        Type type = typeRepository.findById(2L).orElseThrow(); // todo доход сделать константу
+        balance.setType(type);
 
         // todo передавать ID реального пользователя
         balance.setUserId(1L);
