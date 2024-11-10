@@ -53,7 +53,7 @@ public class MainController {
 
         // Передаю в вид все транзакции пользователя
         // todo передавать ID реального пользователя
-        Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(1L, Sort.by(Sort.Direction.DESC, "date"));
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(1L, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
         return "home";
