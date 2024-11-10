@@ -95,6 +95,7 @@
                         <th>Категория</th>
                         <th>Счет</th>
                         <th>Дата</th>
+                        <th>Действия</th>
                     </tr>
                 </thead>
 
@@ -105,6 +106,10 @@
                         <td th:text="${userTransaction.category.title}"/>
                         <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
+                        <td>
+                            Редактировать <br>
+                            Удалить
+                        </td>
                     </tr>
                 </tbody>
             </table>
