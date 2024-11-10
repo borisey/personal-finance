@@ -38,7 +38,7 @@ public class BalanceController {
         balance.setCategory(category);
 
         // Сохраняю счет
-        Account account = accountRepository.findById(categoryId).orElseThrow();
+        Account account = accountRepository.findById(accountId).orElseThrow();
         balance.setAccount(account);
 
         // Сохраняю сумму
@@ -72,7 +72,7 @@ public class BalanceController {
         balance.setCategory(category);
 
         // Сохраняю счет
-        Account account = accountRepository.findById(categoryId).orElseThrow();
+        Account account = accountRepository.findById(accountId).orElseThrow();
         balance.setAccount(account);
 
         balance.setAmount(-amount); // Списание с отрицательным знаком
