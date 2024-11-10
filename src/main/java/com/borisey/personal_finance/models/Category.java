@@ -1,12 +1,10 @@
 package com.borisey.personal_finance.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Category {
@@ -22,6 +20,9 @@ public class Category {
 
     // Тип категории (доходы или расходы)
     private Byte typeId;
+
+    @OneToMany(mappedBy = "category")
+    private List<Balance> balance;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime created;

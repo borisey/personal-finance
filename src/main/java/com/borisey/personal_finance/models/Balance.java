@@ -17,7 +17,6 @@ public class Balance {
 
     private Long userId;
     private Long parentId;
-    private Long categoryId;
     private Long accountId;
 
     public Type getType() {
@@ -31,6 +30,21 @@ public class Balance {
     @ManyToOne
     @JoinColumn(name="typeId")
     private Type type;
+
+
+
+
+    public Category getCategory() {
+        return category;
+    }
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="categoryId")
+    private Category category;
 
     public Long getId() {
         return id;
@@ -64,14 +78,6 @@ public class Balance {
         this.parentId = parentId;
     }
 
-    public Long getCategoryId() {
-        return categoryId;
-    }
-
-    public void setCategoryId(Long categoryId) {
-        this.categoryId = categoryId;
-    }
-
     public Long getAccountId() {
         return accountId;
     }
@@ -79,14 +85,6 @@ public class Balance {
     public void setAccountId(Long accountId) {
         this.accountId = accountId;
     }
-
-//    public Byte getTypeId() {
-//        return typeId;
-//    }
-//
-//    public void setTypeId(Byte typeId) {
-//        this.typeId = typeId;
-//    }
 
     public LocalDateTime getDate() {
         return date;

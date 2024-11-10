@@ -1,8 +1,10 @@
 package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.Balance;
+import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.Type;
 import com.borisey.personal_finance.repo.BalanceRepository;
+import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -19,12 +21,17 @@ public class BalanceController {
     private BalanceRepository balanceRepository;
     @Autowired
     private TypeRepository typeRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
 
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
         Balance balance = new Balance();
-        balance.setCategoryId(categoryId);
+
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        balance.setCategory(category);
+
         balance.setAccountId(accountId);
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
@@ -51,13 +58,15 @@ public class BalanceController {
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
         Balance balance = new Balance();
 
-        balance.setCategoryId(categoryId);
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        balance.setCategory(category);
+
         balance.setAccountId(accountId);
 
         balance.setAmount(-amount); // Списание с отрицательным знаком
         balance.setDate(formatDate(date));
 
-        Type type = typeRepository.findById(2L).orElseThrow(); // todo доход сделать константу
+        Type type = typeRepository.findById(2L).orElseThrow(); // todo расход сделать константу
         balance.setType(type);
 
         // todo передавать ID реального пользователя
