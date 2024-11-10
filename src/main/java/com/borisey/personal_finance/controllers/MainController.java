@@ -25,7 +25,7 @@ public class MainController {
     @Autowired
     private BalanceRepository balanceRepository;
 
-    @GetMapping("/")
+    @GetMapping("/my")
     public String accountAdd(Model model) {
 
         // Категории
@@ -56,6 +56,6 @@ public class MainController {
         Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(1L, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
-        return "home";
+        return "my";
     }
 }
