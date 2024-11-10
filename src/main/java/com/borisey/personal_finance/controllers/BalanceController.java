@@ -1,8 +1,10 @@
 package com.borisey.personal_finance.controllers;
 
+import com.borisey.personal_finance.models.Account;
 import com.borisey.personal_finance.models.Balance;
 import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.Type;
+import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
@@ -23,16 +25,23 @@ public class BalanceController {
     private TypeRepository typeRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private AccountRepository accountRepository;
 
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
         Balance balance = new Balance();
 
+        // Сохраняю категорию
         Category category = categoryRepository.findById(categoryId).orElseThrow();
         balance.setCategory(category);
 
-        balance.setAccountId(accountId);
+        // Сохраняю счет
+        Account account = accountRepository.findById(categoryId).orElseThrow();
+        balance.setAccount(account);
+
+        // Сохраняю сумму
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
 
@@ -58,10 +67,13 @@ public class BalanceController {
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
         Balance balance = new Balance();
 
+        // Сохраняю категорию
         Category category = categoryRepository.findById(categoryId).orElseThrow();
         balance.setCategory(category);
 
-        balance.setAccountId(accountId);
+        // Сохраняю счет
+        Account account = accountRepository.findById(categoryId).orElseThrow();
+        balance.setAccount(account);
 
         balance.setAmount(-amount); // Списание с отрицательным знаком
         balance.setDate(formatDate(date));

@@ -103,7 +103,7 @@
                         <td th:text="${userTransaction.type.title}"/>
                         <td th:text="${userTransaction.amount}"/>
                         <td th:text="${userTransaction.category.title}"/>
-                        <td th:text="${userTransaction.accountId}"/>
+                        <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
                     </tr>
                 </tbody>

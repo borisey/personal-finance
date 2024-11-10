@@ -3,6 +3,7 @@ package com.borisey.personal_finance.models;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Account {
@@ -14,6 +15,9 @@ public class Account {
     public void setId(Long id) {
         this.id = id;
     }
+
+    @OneToMany(mappedBy = "account")
+    private List<Balance> balance;
 
     public Long getUserId() {
         return userId;
