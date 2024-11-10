@@ -90,21 +90,21 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th>Тип</th>
                         <th>Сумма</th>
                         <th>Категория</th>
-                        <th>Дата</th>
-                        <th>Тип</th>
                         <th>Счет</th>
+                        <th>Дата</th>
                     </tr>
                 </thead>
 
                 <tbody>
                     <tr th:each="userTransaction : ${allUserTransactions}">
+                        <td th:text="${userTransaction.type.title}"/>
                         <td th:text="${userTransaction.amount}"/>
                         <td th:text="${userTransaction.categoryId}"/>
-                        <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
-                        <td th:text="${userTransaction.type.title}"/>
                         <td th:text="${userTransaction.accountId}"/>
+                        <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
                     </tr>
                 </tbody>
             </table>

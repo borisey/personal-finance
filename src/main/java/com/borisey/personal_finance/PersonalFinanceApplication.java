@@ -21,12 +21,12 @@ public class PersonalFinanceApplication implements CommandLineRunner {
 	public void run(String... args) throws Exception {
 		Type type1 = new Type();
 		type1.setId(1L);
-		type1.setTitle("Доходы");
+		type1.setTitle("Доход");
 		typeRepository.save(type1);
 
 		Type type2 = new Type();
 		type2.setId(2L);
-		type2.setTitle("Расходы");
+		type2.setTitle("Расход");
 		typeRepository.save(type2);
 	}
 }
