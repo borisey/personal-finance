@@ -58,4 +58,9 @@ public class MainController {
 
         return "my";
     }
+
+    @GetMapping("/")
+    public String accountHome(Model model) {
+        return "landing";
+    }
 }
