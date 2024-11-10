@@ -32,12 +32,12 @@ public class RegistrationController {
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
-            if(userService.saveUser(user))
+            if (userService.saveUser(user))
                 System.out.println("GOOD");
             else
                 System.out.println("BAD");
         }
-        return "redirect:/main";
+        return "redirect:/my";
     }
 
 }

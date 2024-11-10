@@ -32,6 +32,6 @@ public class CategoryController {
         category.setUpdated(currentDateTime);
         categoryRepository.save(category);
 
-        return "redirect:/";
+        return "redirect:/my";
     }
 }

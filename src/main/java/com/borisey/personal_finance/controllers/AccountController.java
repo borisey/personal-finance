@@ -32,7 +32,7 @@ public class AccountController {
 
         accountRepository.save(account);
 
-        return "redirect:/";
+        return "redirect:/my";
     }
 
 }

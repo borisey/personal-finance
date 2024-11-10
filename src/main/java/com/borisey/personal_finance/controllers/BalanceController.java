@@ -58,7 +58,7 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/";
+        return "redirect:/my";
     }
 
     // Списание
@@ -91,7 +91,7 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/";
+        return "redirect:/my";
     }
 
     // Привожу строку с датой к формату LocalDateTime

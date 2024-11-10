@@ -63,9 +63,4 @@ public class MainController {
     public String accountHome(Model model) {
         return "landing";
     }
-
-    @GetMapping("/main")
-    public String mainPage(Model model) {
-        return "main";
-    }
 }
