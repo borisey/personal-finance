@@ -4,10 +4,12 @@
         <span class="fs-4">PersonalFinance.ru</span>
     </a>
 
-    <nav th:switch="${UUID}" class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+    <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
+
+        <p th:text="${username}" class="me-3 py-2 account-body-emphasis text-decoration-none" />
 
         <form th:action="@{/logout}" method="post">
-            <input type="submit" value="Выйти"/>
+            <input type="submit" class="btn btn-primary" value="Выйти"/>
         </form>
 <!--        -->
 <!--        <a th:case="''" href="/login" class="me-3 py-2 account-body-emphasis text-decoration-none">Войти</a>-->

@@ -30,11 +30,12 @@ public class MainController {
     private UserService userService;
 
     @GetMapping("/my")
-    public String accountAdd(Model model) {
+    public String myPage(Model model) {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
 
         // Категории
 
@@ -63,6 +64,9 @@ public class MainController {
         // todo передавать ID реального пользователя
         Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
 
         return "my";
     }
