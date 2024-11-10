@@ -23,7 +23,7 @@ public class BalanceController {
         balance.setAccountId(accountId);
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
-        balance.setTypeId((byte) 1); // todo доход сделать константу
+//        balance.setTypeId((byte) 1); // todo доход сделать константу
 
         // todo передавать ID реального пользователя
         balance.setUserId(1L);
@@ -49,7 +49,7 @@ public class BalanceController {
 
         balance.setAmount(-amount); // Списание с отрицательным знаком
         balance.setDate(formatDate(date));
-        balance.setTypeId((byte) 2); // todo расход сделать константу
+//        balance.setTypeId((byte) 2); // todo расход сделать константу
 
         // todo передавать ID реального пользователя
         balance.setUserId(1L);

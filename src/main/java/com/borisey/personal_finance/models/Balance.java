@@ -1,12 +1,10 @@
 package com.borisey.personal_finance.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 @Entity
 public class Balance {
@@ -17,7 +15,22 @@ public class Balance {
 
     private String title;
 
-    private Long userId, parentId, categoryId, accountId;
+    private Long userId;
+    private Long parentId;
+    private Long categoryId;
+    private Long accountId;
+
+    public Type getType() {
+        return type;
+    }
+
+    public void setType(Type type) {
+        this.type = type;
+    }
+
+    @ManyToOne
+    @JoinColumn(name="typeId")
+    private Type type;
 
     public Long getId() {
         return id;
@@ -67,13 +80,13 @@ public class Balance {
         this.accountId = accountId;
     }
 
-    public Byte getTypeId() {
-        return typeId;
-    }
-
-    public void setTypeId(Byte typeId) {
-        this.typeId = typeId;
-    }
+//    public Byte getTypeId() {
+//        return typeId;
+//    }
+//
+//    public void setTypeId(Byte typeId) {
+//        this.typeId = typeId;
+//    }
 
     public LocalDateTime getDate() {
         return date;
@@ -107,8 +120,8 @@ public class Balance {
         this.updated = updated;
     }
 
-    // Тип (доходы или расходы)
-    private Byte typeId;
+//    // Тип (доходы или расходы)
+//    private Byte typeId;
 
     // Дата пополнения или списания (выбирается пользователем)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
