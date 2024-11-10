@@ -3,6 +3,8 @@ package com.borisey.personal_finance.services;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class UserService implements UserDetailsService {
+
     @Autowired
     private UserRepository userRepository;
 
@@ -21,6 +24,16 @@ public class UserService implements UserDetailsService {
                        BCryptPasswordEncoder bCryptPasswordEncoder) {
         this.userRepository = userRepository;
         this.bCryptPasswordEncoder = bCryptPasswordEncoder;
+    }
+
+    public User getCurrentUser() {
+        return (User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    }
+
+    public String getCurrentUsername() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        return auth.getName();
     }
 
     @Override
@@ -42,6 +55,7 @@ public class UserService implements UserDetailsService {
         user.setRole("USER");
         user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         userRepository.save(user);
+
         return true;
     }
 
@@ -50,6 +64,7 @@ public class UserService implements UserDetailsService {
             userRepository.deleteById(userId);
             return true;
         }
+
         return false;
     }
 }

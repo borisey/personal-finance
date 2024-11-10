@@ -1,13 +1,11 @@
 package com.borisey.personal_finance.controllers;
 
-import com.borisey.personal_finance.models.Account;
-import com.borisey.personal_finance.models.Balance;
-import com.borisey.personal_finance.models.Category;
-import com.borisey.personal_finance.models.Type;
+import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
+import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +24,8 @@ public class BalanceController {
     private CategoryRepository categoryRepository;
     @Autowired
     private AccountRepository accountRepository;
+    @Autowired
+    private UserService userService;
 
     // Пополнение
     @PostMapping("/balance/add-income")
@@ -44,11 +44,13 @@ public class BalanceController {
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
 
-        Type type = typeRepository.findById(1L).orElseThrow(); // todo доход сделать константу
+        // todo доход сделать константу
+        Type type = typeRepository.findById(1L).orElseThrow();
         balance.setType(type);
 
-        // todo передавать ID реального пользователя
-        balance.setUserId(1L);
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        balance.setUserId(currentUser.getId());
 
         // Сохраняю дату и время
         LocalDateTime currentDateTime = LocalDateTime.now();
@@ -74,14 +76,17 @@ public class BalanceController {
         Account account = accountRepository.findById(accountId).orElseThrow();
         balance.setAccount(account);
 
-        balance.setAmount(-amount); // Списание с отрицательным знаком
+        // Списание с отрицательным знаком
+        balance.setAmount(-amount);
         balance.setDate(formatDate(date));
 
-        Type type = typeRepository.findById(2L).orElseThrow(); // todo расход сделать константу
+        // todo расход сделать константу
+        Type type = typeRepository.findById(2L).orElseThrow();
         balance.setType(type);
 
-        // todo передавать ID реального пользователя
-        balance.setUserId(1L);
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        balance.setUserId(currentUser.getId());
 
         // Сохраняю дату и время
         LocalDateTime currentDateTime = LocalDateTime.now();

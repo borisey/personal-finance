@@ -1,8 +1,12 @@
 package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.Account;
+import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.AccountRepository;
+import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
@@ -13,6 +17,9 @@ public class AccountController {
     @Autowired
     private AccountRepository accountRepository;
 
+    @Autowired
+    private UserService userService;
+
     @PostMapping("/account/add")
     public String accountAccountAdd(@RequestParam String title, Float amount) {
         Account account = new Account();
@@ -22,8 +29,9 @@ public class AccountController {
 
         account.setAmount(amount);
 
-        // todo передавать ID реального пользователя
-        account.setUserId(1L);
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        account.setUserId(currentUser.getId());
 
         // Сохраняю дату и время
         LocalDateTime currentDateTime = LocalDateTime.now();

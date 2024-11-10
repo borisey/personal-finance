@@ -1,7 +1,9 @@
 package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.Category;
+import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.CategoryRepository;
+import com.borisey.personal_finance.services.UserService;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,8 @@ public class CategoryController {
 
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private UserService userService;
 
     // Добавление новой категории доходов (зарплата, вклад) или расходов (еда, развлечения)
     @PostMapping("/category/add")
@@ -22,8 +26,9 @@ public class CategoryController {
         category.setTitle(title);
         category.setTypeId(typeId);
 
-        // todo передавать ID реального пользователя
-        category.setUserId(1L);
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        category.setUserId(currentUser.getId());
 
         // todo передавать ID родительской категории
         category.setParentId(null);
