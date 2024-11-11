@@ -75,4 +75,10 @@ public class MainController {
     public String accountHome(Model model) {
         return "landing";
     }
+
+    // todo перенести в registration controller
+    @GetMapping("/register-success")
+    public String registerSuccess() {
+        return "register-success";
+    }
 }

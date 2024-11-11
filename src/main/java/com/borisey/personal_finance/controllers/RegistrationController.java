@@ -27,15 +27,18 @@ public class RegistrationController {
     @PostMapping
     public String registerUser(@RequestParam (required = true, defaultValue = "!@") String username,
                                @RequestParam (required = true, defaultValue = "!@") String password) {
-        if(!(username.equals("!@") & password.equals("!@"))) {
+        if (!(username.equals("!@") & password.equals("!@"))) {
             System.out.println(username + " " + password);
             User user = new User();
             user.setUsername(username);
             user.setPassword(password);
-            if (userService.saveUser(user))
+            if (userService.saveUser(user)) {
                 System.out.println("GOOD");
-            else
+
+                return "redirect:/register-success";
+            } else {
                 System.out.println("BAD");
+            }
         }
         return "redirect:/my";
     }
