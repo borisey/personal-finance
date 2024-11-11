@@ -69,13 +69,25 @@
             Счета
         </h2>
 
-        <h3>Все счета</h3>
-        <div th:each="userAccount : ${allUserAccounts}">
-            <p th:text="${userAccount.title} + ': ' + ${userAccount.amount} + ' руб.'" />
+        <h3 style="text-align: center">Все счета</h3>
+        <div style="text-align: center" th:each="userAmount : ${allUserAmount}">
+            <strong><p th:text="'Итого на всех счетах: ' + ${#numbers.formatDecimal(userAmount, 0, 'COMMA', 2, 'POINT')}" /></strong>
         </div>
-        <div th:each="userAmount : ${allUserAmount}">
-            <p th:text="'Итого на всех счетах: ' + ${#numbers.formatDecimal(userAmount, 0, 'COMMA', 2, 'POINT')}" />
-        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Название счета</th>
+                    <th>Сумма</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                <tr th:each="userAccount : ${allUserAccounts}">
+                    <td th:text="${userAccount.title}" />
+                    <td th:text="${userAccount.amount} + ' руб.'" />
+                </tr>
+            </tbody>
+        </table>
 
         <h3>Добавить счет</h3>
         <form action="/account/add" method="post">
