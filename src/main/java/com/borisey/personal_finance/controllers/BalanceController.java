@@ -8,10 +8,13 @@ import com.borisey.personal_finance.repo.TypeRepository;
 import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.Optional;
 
 @Controller
 public class BalanceController {
@@ -95,6 +98,76 @@ public class BalanceController {
 
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
+
+        return "redirect:/my";
+    }
+
+    // Редактирование транзакции
+    @GetMapping("/balance/{id}/edit")
+    public String transactionEdit(@PathVariable(value = "id") Long id, Model model) {
+
+        // todo искать также по пользователю
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
+
+        // todo Если статью добавил не этот пользователь (запретить редактирование)
+
+        Optional<Balance> link = balanceRepository.findById(id);
+        ArrayList<Balance> res = new ArrayList<>();
+        link.ifPresent(res::add);
+        model.addAttribute("transaction", res);
+
+        return "balance-edit";
+    }
+
+    @PostMapping("/balance/{id}/edit")
+    public String transactionEdit(@PathVariable(value = "id") Long id,
+                                 @RequestParam
+                                 Long typeId,
+                                 Float amount,
+                                 Long categoryId,
+                                 Long accountId,
+                                 String date
+    ) {
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
+
+        // Сохраняю категорию
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        transaction.setCategory(category);
+
+        // Сохраняю счет
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        transaction.setAccount(account);
+
+        // Сохраняю тип транзакции
+        Type type = typeRepository.findById(typeId).orElseThrow();
+        transaction.setType(type);
+
+        // todo: у списания менять знак
+        transaction.setAmount(amount);
+        transaction.setDate(formatDate(date));
+
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        transaction.setUserId(currentUser.getId());
+
+        // Сохраняю дату и время обновления записи
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        transaction.setUpdated(currentDateTime);
+
+        balanceRepository.save(transaction);
+
+        return "redirect:/my";
+    }
+
+    @GetMapping("/balance/{id}/delete")
+    public String linkLinkRemove(@PathVariable(value = "id") long id, Model model) {
+
+        // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
+
+        // todo доработать Если транзакцию добавил не этот пользователь
+
+        balanceRepository.delete(transaction);
 
         return "redirect:/my";
     }

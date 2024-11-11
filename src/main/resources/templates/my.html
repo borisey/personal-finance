@@ -126,8 +126,8 @@
                         <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
                         <td>
-                            Редактировать <br>
-                            Удалить
+                            <a th:href="'/balance/' + ${userTransaction.id} + '/edit'">Редактировать</a><br>
+                            <a th:href="'/balance/' + ${userTransaction.id} + '/delete'">Удалить</a>
                         </td>
                     </tr>
                 </tbody>
