@@ -125,8 +125,12 @@
                         <td th:text="${userTransaction.category.title}"/>
                         <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
-                        <td>
-                            <a th:href="'/income/' + ${userTransaction.id} + '/edit'">Редактировать</a><br>
+
+                        <td th:switch="${userTransaction.type.id}">
+
+                            <!-- todo сделать константы -->
+                            <a th:case="1" th:href="'/income/' + ${userTransaction.id} + '/edit'">Редактировать</a>
+                            <a th:case="2" th:href="'/expense/' + ${userTransaction.id} + '/edit'">Редактировать</a>
                             <a th:href="'/balance/' + ${userTransaction.id} + '/delete'">Удалить</a>
                         </td>
                     </tr>
