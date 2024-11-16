@@ -105,7 +105,7 @@ public class BalanceController {
 
     // Редактирование дохода
     @GetMapping("/income/{id}/edit")
-    public String transactionEdit(@PathVariable(value = "id") Long id, Model model) {
+    public String incomeEdit(@PathVariable(value = "id") Long id, Model model) {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -133,10 +133,6 @@ public class BalanceController {
         // Передаю в вид все категории доходов
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
-
-        // Передаю в вид все категории расходов
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
-        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         return "income-edit";
     }
@@ -166,6 +162,83 @@ public class BalanceController {
 
         // todo: у списания менять знак
         transaction.setAmount(amount);
+        transaction.setDate(formatDate(date));
+
+        // Сохраняю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        transaction.setUserId(currentUser.getId());
+
+        // Сохраняю дату и время обновления записи
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        transaction.setUpdated(currentDateTime);
+
+        balanceRepository.save(transaction);
+
+        return "redirect:/my";
+    }
+
+    // Редактирование расхода
+    @GetMapping("/expense/{id}/edit")
+    public String expenseEdit(@PathVariable(value = "id") Long id, Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
+
+
+        // todo Если расход добавил не этот пользователь (запретить редактирование)
+
+        Optional<Balance> link = balanceRepository.findById(id);
+
+        // todo искать также по пользователю
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
+        transaction.setAmount(-transaction.getAmount());
+
+//        ArrayList<Balance> res = new ArrayList<>();
+//        link.ifPresent(res::add);
+        model.addAttribute("transaction", transaction);
+
+        // Счета
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
+
+        // Категории
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
+        return "expense-edit";
+    }
+
+    @PostMapping("/expense/{id}/edit")
+    public String expenseEdit(@PathVariable(value = "id") Long id,
+                             @RequestParam
+                             Long typeId,
+                             Float amount,
+                             Long categoryId,
+                             Long accountId,
+                             String date
+    ) {
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
+
+        // Сохраняю категорию
+        Category category = categoryRepository.findById(categoryId).orElseThrow();
+        transaction.setCategory(category);
+
+        // Сохраняю счет
+        Account account = accountRepository.findById(accountId).orElseThrow();
+        transaction.setAccount(account);
+
+        // Сохраняю тип транзакции
+        Type type = typeRepository.findById(typeId).orElseThrow();
+        transaction.setType(type);
+
+        // todo: у списания менять знак
+        transaction.setAmount(-amount);
         transaction.setDate(formatDate(date));
 
         // Сохраняю ID текущего пользователя
