@@ -160,9 +160,6 @@ public class BalanceController {
         Type type = typeRepository.findById(typeId).orElseThrow();
         transaction.setType(type);
 
-
-        System.out.println(amount);
-
         transaction.setAmount(amount);
         transaction.setDate(formatDate(date));
 
