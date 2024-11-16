@@ -18,17 +18,17 @@ public class Category {
     private String title;
 
 //    @Transient
-//    @Column(name = "allamount", insertable = false, updatable = false)
-//    @JoinColumn(name="allamount")
-//    public Double allamount;
+    @Column(name = "allamount", insertable = false, updatable = false)
+    @JoinColumn(name="allamount")
+    public Double allamount;
 
-//    public Double getAllamount() {
-//        return allamount;
-//    }
-//
-//    public void setAllamount(Double allamount) {
-//        this.allamount = allamount;
-//    }
+    public Double getAllamount() {
+        return allamount;
+    }
+
+    public void setAllamount(Double allamount) {
+        this.allamount = allamount;
+    }
 
     // Может быть родительская категория и подкатегории
     private Long userId, parentId;
