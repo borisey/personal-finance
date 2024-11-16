@@ -35,9 +35,26 @@
             <div class="col">
 
                 <h3 style="text-align: center">Все категории доходов</h3>
-                <div th:each="userIncomeCategory : ${allUserIncomeCategories}">
-                    <p th:text="${userIncomeCategory.title}" />
-                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Название категории</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                    <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
+                        <td th:text="${userIncomeCategory.title}" />
+                        <td>
+                            <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'">Редактировать</a>
+                            <a th:href="'/category/' + ${userIncomeCategory.id} + '/delete'">Удалить</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
 
                 <h3 style="text-align: center">Добавить категорию доходов</h3>
                 <form action="/category/add" method="post">
@@ -56,9 +73,25 @@
 
             <div class="col">
                 <h3 style="text-align: center">Все категории расходов</h3>
-                <div th:each="userExpenseCategory : ${allUserExpensesCategories}">
-                    <p th:text="${userExpenseCategory.title}" />
-                </div>
+
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Название категории</th>
+                            <th>Действия</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="userExpenseCategory : ${allUserExpensesCategories}">
+                            <td th:text="${userExpenseCategory.title}" />
+                            <td>
+                                <a th:href="'/category/' + ${userExpenseCategory.id} + '/edit'">Редактировать</a>
+                                <a th:href="'/category/' + ${userExpenseCategory.id} + '/delete'">Удалить</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
 
                 <h3 style="text-align: center">Добавить категорию расходов</h3>
                 <form action="/category/add" method="post">
