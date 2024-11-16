@@ -7,6 +7,7 @@ import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
 import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -106,6 +107,11 @@ public class BalanceController {
     @GetMapping("/balance/{id}/edit")
     public String transactionEdit(@PathVariable(value = "id") Long id, Model model) {
 
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
         // todo искать также по пользователю
         Balance transaction = balanceRepository.findById(id).orElseThrow();
 
@@ -115,6 +121,22 @@ public class BalanceController {
         ArrayList<Balance> res = new ArrayList<>();
         link.ifPresent(res::add);
         model.addAttribute("transaction", res);
+
+        // Счета
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
+
+        // Категории
+
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
+
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         return "balance-edit";
     }

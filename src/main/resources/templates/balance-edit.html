@@ -16,17 +16,15 @@
                 <form action="/balance/add-expense" method="post">
                     <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
-                    <select th:required="required" class="form-control" id="addExpenseCategoryId" name="categoryId">
-                        <option value="">--Выберите категорию расхода--</option>
-                        <option th:each="userExpenseCategory : ${allUserExpensesCategories}" th:value="${userExpenseCategory.id}" th:text="${userExpenseCategory.title}"></option>
+                    <select th:required="required" class="form-control" id="addIncomeCategoryId" name="categoryId">
+                        <option th:selected="${el.category.id}" th:each="userIncomeCategory : ${allUserIncomeCategories}" th:value="${userIncomeCategory.id}" th:text="${userIncomeCategory.title}"></option>
                     </select><br>
 
-                    <select th:required="required" class="form-control" id="addExpenseAccountId" name="accountId">
-                        <option value="">--Выберите счет списания--</option>
-                        <option th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
+                    <select th:required="required" class="form-control" id="addIncomeAccountId" name="accountId">
+                        <option th:selected="${el.account.id}" th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
                     </select><br>
 
-                    <input th:required="required" type="date" name="date" th:value="${#temporals.format(el.date, 'yyyy-MM-dd')}" id="dateExpense" class="form-control"/><br>
+                    <input th:required="required" type="date" name="date" th:value="${#temporals.format(el.date, 'yyyy-MM-dd')}" id="dateIncome" class="form-control"/><br>
 
                     <input th:required="required" type="number" name="amount" th:value="${el.amount}" min="0.01" step="0.01" placeholder="Введите сумму списания" class="form-control"><br>
 

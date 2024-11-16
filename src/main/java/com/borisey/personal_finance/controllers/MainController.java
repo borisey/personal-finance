@@ -40,19 +40,16 @@ public class MainController {
         // Категории
 
         // Передаю в вид все категории доходов
-        // todo передавать ID реального пользователя
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид все категории расходов
-        // todo передавать ID реального пользователя
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Счета
 
         // Передаю в вид все счета пользователя
-        // todo передавать ID реального пользователя
         Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserAccounts", allUserAccounts);
 
@@ -61,7 +58,6 @@ public class MainController {
         model.addAttribute("allUserAmount", allUserAmount);
 
         // Передаю в вид все транзакции пользователя
-        // todo передавать ID реального пользователя
         Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
