@@ -114,7 +114,7 @@
 
         <h3 style="text-align: center">Все счета</h3>
         <div style="text-align: center" th:each="userAmount : ${allUserAmount}">
-            <strong><p th:text="'Итого на всех счетах: ' + ${#numbers.formatDecimal(userAmount, 0, 'COMMA', 2, 'POINT')}" /></strong>
+            <strong><p th:text="'Итого на всех счетах: ' + ${#numbers.formatDecimal(userAmount, 1, 2)}" /></strong>
         </div>
         <table class="table">
             <thead>
@@ -128,7 +128,7 @@
             <tbody>
                 <tr th:each="userAccount : ${allUserAccounts}">
                     <td th:text="${userAccount.title}" />
-                    <td th:text="${#numbers.formatDecimal(userAccount.amount, 0, 2)}" />
+                    <td th:text="${#numbers.formatDecimal(userAccount.amount, 1, 2)}" />
                     <td>
                         <a th:href="'/account/' + ${userAccount.id} + '/edit'">Редактировать</a>
                         <a th:href="'/account/' + ${userAccount.id} + '/delete'">Удалить</a>
@@ -168,7 +168,7 @@
                 <tbody>
                     <tr th:each="userTransaction : ${allUserTransactions}">
                         <td th:text="${userTransaction.type.title}"/>
-                        <td th:text="${#numbers.formatDecimal(userTransaction.amount, 0, 2)}"/>
+                        <td th:text="${#numbers.formatDecimal(userTransaction.amount, 1, 2)}"/>
                         <td th:text="${userTransaction.category.title}"/>
                         <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />
