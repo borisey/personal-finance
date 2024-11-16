@@ -1,7 +1,9 @@
 package com.borisey.personal_finance.models;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import jakarta.persistence.*;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -15,16 +17,18 @@ public class Category {
 
     private String title;
 
-    public Double getAllamount() {
-        return allamount;
-    }
+//    @Transient
+//    @Column(name = "allamount", insertable = false, updatable = false)
+//    @JoinColumn(name="allamount")
+//    public Double allamount;
 
-    public void setAllamount(Double allamount) {
-        this.allamount = allamount;
-    }
-
-    @Transient
-    private Double allamount;
+//    public Double getAllamount() {
+//        return allamount;
+//    }
+//
+//    public void setAllamount(Double allamount) {
+//        this.allamount = allamount;
+//    }
 
     // Может быть родительская категория и подкатегории
     private Long userId, parentId;

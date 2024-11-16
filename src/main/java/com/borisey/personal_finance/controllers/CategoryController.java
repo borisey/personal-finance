@@ -36,6 +36,7 @@ public class CategoryController {
 
         // todo передавать ID родительской категории
         category.setParentId(null);
+//        category.setAllamount(null);
 
         category.setCreated(currentDateTime);
         category.setUpdated(currentDateTime);
