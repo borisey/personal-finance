@@ -50,7 +50,7 @@
                     <tbody>
                     <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
                         <td th:text="${userIncomeCategory.title}" />
-<!--                        <td th:text="${userIncomeCategory.allamount}" />-->
+<!--                        <td th:text="${userIncomeCategory?.allamount}" />-->
                         </td>
                         <td>
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
@@ -91,7 +91,7 @@
                     <tbody>
                         <tr th:each="userExpenseCategory : ${allUserExpensesCategories}">
                             <td th:text="${userExpenseCategory.title}" />
-<!--                            <td th:text="${userExpenseCategory.allamount}" />-->
+<!--                            <td th:text="${userExpenseCategory?.allamount}" />-->
                             <td>
                                 <a th:href="'/category/' + ${userExpenseCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                                 <a th:href="'/category/' + ${userExpenseCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>
