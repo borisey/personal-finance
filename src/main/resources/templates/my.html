@@ -17,13 +17,14 @@
 
         <div class="row">
             <div class="col">
-                <h2 style="text-align: center">
-                    Доходы за весь период: 0
+                <h2 style="text-align: center" th:each="userIncome : ${allUserIncome}">
+                    <strong><p th:text="'Доходы за весь период: ' + ${#numbers.formatDecimal(userIncome, 1, 2)}" /></strong>
                 </h2>
+
             </div>
             <div class="col">
-                <h2 style="text-align: center">
-                    Расходы за весь период: 0
+                <h2 style="text-align: center" th:each="userExpense : ${allUserExpense}">
+                    <strong><p th:text="'Расходы за весь период: ' + ${#numbers.formatDecimal(userExpense, 1, 2)}" /></strong>
                 </h2>
             </div>
         </div>

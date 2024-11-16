@@ -1,13 +1,7 @@
 package com.borisey.personal_finance.controllers;
 
-import com.borisey.personal_finance.models.Account;
-import com.borisey.personal_finance.models.Balance;
-import com.borisey.personal_finance.models.Category;
-import com.borisey.personal_finance.models.User;
-import com.borisey.personal_finance.repo.AccountRepository;
-import com.borisey.personal_finance.repo.BalanceRepository;
-import com.borisey.personal_finance.repo.CategoryRepository;
-import com.borisey.personal_finance.repo.UserRepository;
+import com.borisey.personal_finance.models.*;
+import com.borisey.personal_finance.repo.*;
 import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
@@ -26,6 +20,8 @@ public class MainController {
     private CategoryRepository categoryRepository;
     @Autowired
     private BalanceRepository balanceRepository;
+    @Autowired
+    private TypeRepository typeRepository;
     @Autowired
     private UserService userService;
 
@@ -52,6 +48,16 @@ public class MainController {
         // Передаю в вид все счета пользователя
         Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserAccounts", allUserAccounts);
+
+        // Общая сумма доходов
+        Type typeIncome = typeRepository.findById(1L).orElseThrow(); // todo сделать константу
+        Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeId(userId, typeIncome);
+        model.addAttribute("allUserIncome", allUserIncome);
+
+        // Общая сумма расходов
+        Type typeExpense = typeRepository.findById(2L).orElseThrow(); // todo сделать константу
+        Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeId(userId, typeExpense);
+        model.addAttribute("allUserExpense", allUserExpense);
 
         // Общая сумма на всех счетах
         Iterable<Account> allUserAmount = accountRepository.findSumByUserId(userId);
