@@ -44,6 +44,10 @@ public class BalanceController {
         Account account = accountRepository.findById(accountId).orElseThrow();
         balance.setAccount(account);
 
+        // Пополняю счет
+        account.setAmount(account.getAmount() + amount);
+        accountRepository.save(account);
+
         // Сохраняю сумму
         balance.setAmount(amount);
         balance.setDate(formatDate(date));
@@ -79,6 +83,10 @@ public class BalanceController {
         // Сохраняю счет
         Account account = accountRepository.findById(accountId).orElseThrow();
         balance.setAccount(account);
+
+        // Списываю сумму со счета
+        account.setAmount(account.getAmount() - amount);
+        accountRepository.save(account);
 
         // Списание с отрицательным знаком
         balance.setAmount(-amount);
@@ -156,6 +164,10 @@ public class BalanceController {
         Account account = accountRepository.findById(accountId).orElseThrow();
         transaction.setAccount(account);
 
+        // Пополняю сумму на счет
+        account.setAmount(account.getAmount() + amount);
+        accountRepository.save(account);
+
         // Сохраняю тип транзакции
         Type type = typeRepository.findById(typeId).orElseThrow();
         transaction.setType(type);
@@ -213,6 +225,7 @@ public class BalanceController {
         return "expense-edit";
     }
 
+    // Изменение расхода
     @PostMapping("/expense/{id}/edit")
     public String expenseEdit(@PathVariable(value = "id") Long id,
                              @RequestParam
@@ -231,6 +244,10 @@ public class BalanceController {
         // Сохраняю счет
         Account account = accountRepository.findById(accountId).orElseThrow();
         transaction.setAccount(account);
+
+        // Списываю сумму со счета
+        account.setAmount(account.getAmount() - amount);
+        accountRepository.save(account);
 
         // Сохраняю тип транзакции
         Type type = typeRepository.findById(typeId).orElseThrow();
