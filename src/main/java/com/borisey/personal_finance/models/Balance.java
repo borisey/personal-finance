@@ -94,11 +94,11 @@ public class Balance {
         this.date = date;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -126,7 +126,7 @@ public class Balance {
     private LocalDateTime date;
 
     // Сумма поступления или списания
-    private Float amount;
+    private Double amount;
 
     // Дата создания записи (заполняется автоматически)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

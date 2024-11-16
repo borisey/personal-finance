@@ -15,7 +15,7 @@
             <div th:each="el : ${account}">
                 <form th:action="'/account/' + ${el.id} + '/edit'" method="post">
                     <input type="text" th:value="${el.title}" name="title" placeholder="Введите название счета" class="form-control"><br>
-                    <input type="number" th:value="${el.amount}" name="amount" min="0" step="0.01" placeholder="Введите сумму на счете" class="form-control"><br>
+                    <input type="text" th:value="${#numbers.formatDecimal(el.amount, 0, 2, 'POINT')}" name="amount" min="0.0" step="0.01" placeholder="Введите сумму на счете" class="form-control"><br>
                     <button type="submit" class="btn btn-success">Обновить</button>
                 </form>
             </div>

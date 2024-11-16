@@ -89,7 +89,7 @@
             <tbody>
                 <tr th:each="userAccount : ${allUserAccounts}">
                     <td th:text="${userAccount.title}" />
-                    <td th:text="${userAccount.amount} + ' руб.'" />
+                    <td th:text="${#numbers.formatDecimal(userAccount.amount, 0, 2)}" />
                     <td>
                         <a th:href="'/account/' + ${userAccount.id} + '/edit'">Редактировать</a>
                         <a th:href="'/account/' + ${userAccount.id} + '/delete'">Удалить</a>
@@ -126,7 +126,7 @@
                 <tbody>
                     <tr th:each="userTransaction : ${allUserTransactions}">
                         <td th:text="${userTransaction.type.title}"/>
-                        <td th:text="${userTransaction.amount}"/>
+                        <td th:text="${#numbers.formatDecimal(userTransaction.amount, 0, 2)}"/>
                         <td th:text="${userTransaction.category.title}"/>
                         <td th:text="${userTransaction.account.title}"/>
                         <td th:text="${#temporals.format(userTransaction.date, 'dd.MM.yyyy')}" />

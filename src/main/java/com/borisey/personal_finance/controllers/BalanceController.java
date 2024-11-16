@@ -33,7 +33,7 @@ public class BalanceController {
 
     // Пополнение
     @PostMapping("/balance/add-income")
-    public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Float amount, String date) {
+    public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {
         Balance balance = new Balance();
 
         // Сохраняю категорию
@@ -69,7 +69,7 @@ public class BalanceController {
 
     // Списание
     @PostMapping("/balance/add-expense")
-    public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Float amount) {
+    public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Double amount) {
         Balance balance = new Balance();
 
         // Сохраняю категорию
@@ -141,7 +141,7 @@ public class BalanceController {
     public String incomeEdit(@PathVariable(value = "id") Long id,
                                  @RequestParam
                                  Long typeId,
-                                 Float amount,
+                                 Double amount,
                                  Long categoryId,
                                  Long accountId,
                                  String date
@@ -160,7 +160,9 @@ public class BalanceController {
         Type type = typeRepository.findById(typeId).orElseThrow();
         transaction.setType(type);
 
-        // todo: у списания менять знак
+
+        System.out.println(amount);
+
         transaction.setAmount(amount);
         transaction.setDate(formatDate(date));
 
@@ -218,7 +220,7 @@ public class BalanceController {
     public String expenseEdit(@PathVariable(value = "id") Long id,
                              @RequestParam
                              Long typeId,
-                             Float amount,
+                             Double amount,
                              Long categoryId,
                              Long accountId,
                              String date

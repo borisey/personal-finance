@@ -42,13 +42,13 @@ public class Account {
     private Long userId;
 
     // todo добавить значение по умолчанию
-    private Float amount;
+    private Double amount;
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

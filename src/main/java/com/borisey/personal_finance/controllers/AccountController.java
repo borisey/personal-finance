@@ -21,7 +21,7 @@ public class AccountController {
     private UserService userService;
 
     @PostMapping("/account/add")
-    public String accountAccountAdd(@RequestParam String title, Float amount) {
+    public String accountAccountAdd(@RequestParam String title, Double amount) {
         Account account = new Account();
 
         // todo сделать проверку, что запись с таким названием не вносится повторно
@@ -68,7 +68,7 @@ public class AccountController {
     @PostMapping("/account/{id}/edit")
     public String accountEdit(@PathVariable(value = "id") Long id,
                              @RequestParam
-                             Float amount,
+                             Double amount,
                              String title
     ) {
         // todo проверять пользователя
