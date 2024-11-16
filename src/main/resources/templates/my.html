@@ -82,6 +82,7 @@
                 <tr>
                     <th>Название счета</th>
                     <th>Сумма</th>
+                    <th>Действия</th>
                 </tr>
             </thead>
 
@@ -89,6 +90,10 @@
                 <tr th:each="userAccount : ${allUserAccounts}">
                     <td th:text="${userAccount.title}" />
                     <td th:text="${userAccount.amount} + ' руб.'" />
+                    <td>
+                        <a th:href="'/account/' + ${userAccount.id} + '/edit'">Редактировать</a>
+                        <a th:href="'/account/' + ${userAccount.id} + '/delete'">Удалить</a>
+                    </td>
                 </tr>
             </tbody>
         </table>
