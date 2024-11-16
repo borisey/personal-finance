@@ -103,8 +103,8 @@ public class BalanceController {
         return "redirect:/my";
     }
 
-    // Редактирование транзакции
-    @GetMapping("/balance/{id}/edit")
+    // Редактирование дохода
+    @GetMapping("/income/{id}/edit")
     public String transactionEdit(@PathVariable(value = "id") Long id, Model model) {
 
         // Получаю ID текущего пользователя
@@ -138,11 +138,11 @@ public class BalanceController {
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
-        return "balance-edit";
+        return "income-edit";
     }
 
-    @PostMapping("/balance/{id}/edit")
-    public String transactionEdit(@PathVariable(value = "id") Long id,
+    @PostMapping("/income/{id}/edit")
+    public String incomeEdit(@PathVariable(value = "id") Long id,
                                  @RequestParam
                                  Long typeId,
                                  Float amount,
