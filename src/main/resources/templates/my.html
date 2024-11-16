@@ -42,6 +42,7 @@
                     <thead>
                         <tr>
                             <th>Название категории</th>
+                            <th>Общая сумма доходов по категории</th>
                             <th>Действия</th>
                         </tr>
                     </thead>
@@ -49,6 +50,7 @@
                     <tbody>
                     <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
                         <td th:text="${userIncomeCategory.title}" />
+                        <td th:text="${userIncomeCategory.allamount}" />
                         <td>
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>

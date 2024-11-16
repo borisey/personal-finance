@@ -15,6 +15,17 @@ public class Category {
 
     private String title;
 
+    public Double getAllamount() {
+        return allamount;
+    }
+
+    public void setAllamount(Double allamount) {
+        this.allamount = allamount;
+    }
+
+    @Transient
+    private Double allamount;
+
     // Может быть родительская категория и подкатегории
     private Long userId, parentId;
 
