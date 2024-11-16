@@ -43,7 +43,7 @@ public class AccountController {
         return "redirect:/my";
     }
 
-    // Редактирование дохода
+    // Редактирование счета
     @GetMapping("/account/{id}/edit")
     public String accountEdit(@PathVariable(value = "id") Long id, Model model) {
 
