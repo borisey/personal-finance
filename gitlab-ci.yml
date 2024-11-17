@@ -1,0 +1,15 @@
+stages:
+  - deploy-production
+deploy-production:
+  stage: deploy-production
+  environment:
+    name: Production
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'
+  script:
+    - ssh-add <(echo "$SSH_PRIVATE_KEY")
+    - ssh -o StrictHostKeyChecking=no borisey@185.105.109.67
+      'cd /var/www/html/walletus.net && git pull origin main'
