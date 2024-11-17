@@ -4,7 +4,6 @@ import com.borisey.personal_finance.models.Category;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.web.bind.annotation.RequestParam;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Iterable<Category> findAll(Sort colName);

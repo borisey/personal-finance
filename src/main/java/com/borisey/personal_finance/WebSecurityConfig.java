@@ -23,7 +23,7 @@ public class WebSecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .requestMatchers("/", "/register", "/landing/**")
+                        .requestMatchers("/", "/register", "/landing/**", "/account/**")
                         .permitAll()
                         .anyRequest()
                         .authenticated()
