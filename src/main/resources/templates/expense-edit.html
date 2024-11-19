@@ -1,46 +1,58 @@
-<!DOCTYPE HTML>
-<html xmlns:th="http://www.thymeleaf.org">
-<head>
-    <title>Редактирование транзакции</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-</head>
+<!doctype html>
+<html lang="en" data-bs-theme="auto" xmlns:th="http://www.w3.org/1999/xhtml">
+<head th:replace="~{blocks/account/metaHead :: metaHead}" />
+
 <body>
-<div class="container py-3">
-    <header th:insert="~{blocks/header :: header}"></header>
 
-    <main>
-        <div class="container mt-5 mb-5">
-            <h1>Редактирование расхода</h1>
-            <div th:each="el : ${transaction}">
-                <form th:action="'/expense/' + ${el.id} + '/edit'" method="post">
-                    <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
+<svg th:replace="~{blocks/account/images :: images}" />
 
-                    <select th:required="required" class="form-control" id="addExpenseCategoryId" name="categoryId">
-                        <option th:selected="${userExpenseCategory.id==el.category.id}" th:each="userExpenseCategory : ${allUserExpensesCategories}" th:value="${userExpenseCategory.id}" th:text="${userExpenseCategory.title}"></option>
-                    </select><br>
+<header th:replace="~{blocks/account/header :: header}" />
 
-                    <select th:required="required" class="form-control" id="addExpenseAccountId" name="accountId">
-                        <option th:selected="${userAccount.id==el.account.id}" th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
-                    </select><br>
+<div class="container-fluid">
+    <div class="row">
+        <div class="sidebar border border-right col-md-3 col-lg-2 p-0 bg-body-tertiary">
 
-                    <input th:required="required" type="date" name="date" th:value="${#temporals.format(el.date, 'yyyy-MM-dd')}" id="dateExpense" class="form-control"/><br>
+            <div th:replace="~{blocks/account/sidebarMenu :: sidebarMenu}" />
 
-                    <input th:required="required" type="number" name="amount" th:value="${#numbers.formatDecimal(el.amount, 1, 2, 'POINT')}" min="0.01" step="0.01" placeholder="Введите сумму списания" class="form-control"><br>
-
-                    <!-- todo сделать переключение доход/расход -->
-                    <input type="hidden" id="typeId" name="typeId" th:value="${el.type.id}" /><br>
-
-                    <button type="submit" class="btn btn-success">Обновить</button>
-                </form>
-            </div>
         </div>
 
-    </main>
+        <main class="col-md-9 ms-sm-auto col-lg-10 px-md-4">
+            <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
+                <h1 class="h2" th:text="${h1}" />
+            </div>
 
-    <footer th:insert="~{blocks/footer :: footer}" class="pt-4 my-md-5 pt-md-5 border-top"></footer>
+            <main>
+                <div class="container mt-5 mb-5">
+                    <div th:each="el : ${transaction}">
+                        <form th:action="'/expense/' + ${el.id} + '/edit'" method="post">
+                            <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
+                            <select th:required="required" class="form-control" id="addExpenseCategoryId" name="categoryId">
+                                <option th:selected="${userExpenseCategory.id==el.category.id}" th:each="userExpenseCategory : ${allUserExpensesCategories}" th:value="${userExpenseCategory.id}" th:text="${userExpenseCategory.title}"></option>
+                            </select><br>
+
+                            <select th:required="required" class="form-control" id="addExpenseAccountId" name="accountId">
+                                <option th:selected="${userAccount.id==el.account.id}" th:each="userAccount : ${allUserAccounts}" th:value="${userAccount.id}" th:text="${userAccount.title}"></option>
+                            </select><br>
+
+                            <input th:required="required" type="date" name="date" th:value="${#temporals.format(el.date, 'yyyy-MM-dd')}" id="dateExpense" class="form-control"/><br>
+
+                            <input th:required="required" type="number" name="amount" th:value="${#numbers.formatDecimal(el.amount, 1, 2, 'POINT')}" min="0.01" step="0.01" placeholder="Введите сумму списания" class="form-control"><br>
+
+                            <!-- todo сделать переключение доход/расход -->
+                            <input type="hidden" id="typeId" name="typeId" th:value="${el.type.id}" /><br>
+
+                            <button type="submit" class="btn btn-success">Обновить</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+
+        </main>
+    </div>
 </div>
+
+<footer th:replace="~{blocks/account/footer :: footer}" />
 
 </body>
 </html>

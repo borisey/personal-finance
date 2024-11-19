@@ -166,6 +166,9 @@ public class BalanceController {
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
         // Передаю в вид метатэги
         model.addAttribute("h1", "Редактирование дохода");
         model.addAttribute("metaTitle", "Редактирование дохода");
@@ -249,6 +252,9 @@ public class BalanceController {
         // Передаю в вид все категории расходов
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Редактирование расхода");
