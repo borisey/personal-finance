@@ -93,6 +93,15 @@ public class CategoryController {
         link.ifPresent(res::add);
         model.addAttribute("categories", res);
 
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Редактирование категории");
+        model.addAttribute("metaTitle", "Редактирование категории");
+        model.addAttribute("metaDescription", "Редактирование категории");
+        model.addAttribute("metaKeywords", "Редактирование категории");
+
         return "category-edit";
     }
 
