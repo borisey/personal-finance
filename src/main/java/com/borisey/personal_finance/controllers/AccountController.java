@@ -68,6 +68,26 @@ public class AccountController {
         return "accounts";
     }
 
+    // Добавление счета
+    @GetMapping("/account/add")
+    public String accountAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление счета");
+        model.addAttribute("metaTitle", "Добавление счета");
+        model.addAttribute("metaDescription", "Добавление счета");
+        model.addAttribute("metaKeywords", "Добавление счета");
+
+        return "account-add";
+    }
+
     // Редактирование счета
     @GetMapping("/account/{id}/edit")
     public String accountEdit(@PathVariable(value = "id") Long id, Model model) {
