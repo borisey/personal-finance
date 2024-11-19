@@ -4,6 +4,7 @@ import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -41,6 +42,30 @@ public class AccountController {
         accountRepository.save(account);
 
         return "redirect:/my";
+    }
+
+    // Страница счетов пользователя
+    @GetMapping("/accounts")
+    public String getAccounts(Model model) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Счета");
+        model.addAttribute("metaTitle", "Счета");
+        model.addAttribute("metaDescription", "Счета");
+        model.addAttribute("metaKeywords", "Счета");
+
+        return "accounts";
     }
 
     // Редактирование счета

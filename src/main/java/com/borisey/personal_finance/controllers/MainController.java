@@ -71,6 +71,7 @@ public class MainController {
         model.addAttribute("username", username);
 
         // Передаю в вид метатэги
+        model.addAttribute("h1", "Дашборд");
         model.addAttribute("metaTitle", "Дашборд");
         model.addAttribute("metaDescription", "Дашборд");
         model.addAttribute("metaKeywords", "Дашборд");
