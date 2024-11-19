@@ -76,15 +76,28 @@ public class BalanceController {
     }
 
     // Добавление дохода
-    @GetMapping("/income/add")
+    @GetMapping("/transaction/income/add")
     public String transactionIncomeAdd(Model model) {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Категории
+
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
+
+        // Счета
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Добавление дохода");
@@ -92,19 +105,32 @@ public class BalanceController {
         model.addAttribute("metaDescription", "Добавление дохода");
         model.addAttribute("metaKeywords", "Добавление дохода");
 
-        return "income-add";
+        return "transaction-income-add";
     }
 
     // Добавление расхода
-    @GetMapping("/expense/add")
+    @GetMapping("/transaction/expense/add")
     public String transactionExpenseAdd(Model model) {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Категории
+
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
+        // Счета
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Добавление расхода");
@@ -112,11 +138,11 @@ public class BalanceController {
         model.addAttribute("metaDescription", "Добавление расхода");
         model.addAttribute("metaKeywords", "Добавление расхода");
 
-        return "expense-add";
+        return "transaction-expense-add";
     }
 
     // Пополнение
-    @PostMapping("/balance/add-income")
+    @PostMapping("/transaction/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {
         Balance balance = new Balance();
 
@@ -156,7 +182,7 @@ public class BalanceController {
     }
 
     // Списание
-    @PostMapping("/balance/add-expense")
+    @PostMapping("/transaction/add-expense")
     public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Double amount) {
         Balance balance = new Balance();
 
@@ -196,7 +222,7 @@ public class BalanceController {
     }
 
     // Редактирование дохода
-    @GetMapping("/income/{id}/edit")
+    @GetMapping("/transaction/income/{id}/edit")
     public String incomeEdit(@PathVariable(value = "id") Long id, Model model) {
 
         // Получаю ID текущего пользователя
@@ -235,10 +261,10 @@ public class BalanceController {
         model.addAttribute("metaDescription", "Редактирование дохода");
         model.addAttribute("metaKeywords", "Редактирование дохода");
 
-        return "income-edit";
+        return "transaction-income-edit";
     }
 
-    @PostMapping("/income/{id}/edit")
+    @PostMapping("/transaction/income/{id}/edit")
     public String incomeEdit(@PathVariable(value = "id") Long id,
                                  @RequestParam
                                  Long typeId,
@@ -282,7 +308,7 @@ public class BalanceController {
     }
 
     // Редактирование расхода
-    @GetMapping("/expense/{id}/edit")
+    @GetMapping("/transaction/expense/{id}/edit")
     public String expenseEdit(@PathVariable(value = "id") Long id, Model model) {
 
         // Получаю ID текущего пользователя
@@ -322,11 +348,11 @@ public class BalanceController {
         model.addAttribute("metaDescription", "Редактирование расхода");
         model.addAttribute("metaKeywords", "Редактирование расхода");
 
-        return "expense-edit";
+        return "transaction-expense-edit";
     }
 
     // Изменение расхода
-    @PostMapping("/expense/{id}/edit")
+    @PostMapping("/transaction/expense/{id}/edit")
     public String expenseEdit(@PathVariable(value = "id") Long id,
                              @RequestParam
                              Long typeId,

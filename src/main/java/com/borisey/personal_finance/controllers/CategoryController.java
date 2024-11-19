@@ -94,6 +94,46 @@ public class CategoryController {
         return "redirect:/my";
     }
 
+    // Добавление категории дохода
+    @GetMapping("/category/income/add")
+    public String categoryIncomeAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление категории дохода");
+        model.addAttribute("metaTitle", "Добавление категории дохода");
+        model.addAttribute("metaDescription", "Добавление категории дохода");
+        model.addAttribute("metaKeywords", "Добавление категории дохода");
+
+        return "category-income-add";
+    }
+
+    // Добавление категории расхода
+    @GetMapping("/category/expense/add")
+    public String categoryExpenseAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление категории расхода");
+        model.addAttribute("metaTitle", "Добавление категории расхода");
+        model.addAttribute("metaDescription", "Добавление категории расхода");
+        model.addAttribute("metaKeywords", "Добавление категории расхода");
+
+        return "category-expense-add";
+    }
+
     // Редактирование счета
     @GetMapping("/category/{id}/edit")
     public String categoryEdit(@PathVariable(value = "id") Long id, Model model) {
