@@ -70,6 +70,11 @@ public class MainController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
+        // Передаю в вид метатэги
+        model.addAttribute("metaTitle", "Дашборд");
+        model.addAttribute("metaDescription", "Дашборд");
+        model.addAttribute("metaKeywords", "Дашборд");
+
         return "my";
     }
 
