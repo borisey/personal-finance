@@ -87,6 +87,15 @@ public class AccountController {
         link.ifPresent(res::add);
         model.addAttribute("account", res);
 
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Редактирование счета");
+        model.addAttribute("metaTitle", "Редактирование счета");
+        model.addAttribute("metaDescription", "Редактирование счета");
+        model.addAttribute("metaKeywords", "Редактирование счета");
+
         return "account-edit";
     }
 

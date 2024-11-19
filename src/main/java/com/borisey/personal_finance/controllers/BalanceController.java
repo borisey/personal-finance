@@ -166,6 +166,12 @@ public class BalanceController {
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Редактирование дохода");
+        model.addAttribute("metaTitle", "Редактирование дохода");
+        model.addAttribute("metaDescription", "Редактирование дохода");
+        model.addAttribute("metaKeywords", "Редактирование дохода");
+
         return "income-edit";
     }
 
@@ -221,8 +227,6 @@ public class BalanceController {
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-
-
         // todo Если расход добавил не этот пользователь (запретить редактирование)
 
         Optional<Balance> link = balanceRepository.findById(id);
@@ -245,6 +249,12 @@ public class BalanceController {
         // Передаю в вид все категории расходов
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Редактирование расхода");
+        model.addAttribute("metaTitle", "Редактирование расхода");
+        model.addAttribute("metaDescription", "Редактирование расхода");
+        model.addAttribute("metaKeywords", "Редактирование расхода");
 
         return "expense-edit";
     }
