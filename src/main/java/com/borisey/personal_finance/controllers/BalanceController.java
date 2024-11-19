@@ -55,6 +55,26 @@ public class BalanceController {
         return "transactions";
     }
 
+    // Добавление транзакцию
+    @GetMapping("/transaction/add")
+    public String transactionAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление транзакции");
+        model.addAttribute("metaTitle", "Добавление транзакции");
+        model.addAttribute("metaDescription", "Добавление транзакции");
+        model.addAttribute("metaKeywords", "Добавление транзакции");
+
+        return "transaction-add";
+    }
+
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {

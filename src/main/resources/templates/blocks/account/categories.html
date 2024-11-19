@@ -25,21 +25,6 @@
                 </tbody>
             </table>
         </div>
-
-
-        <h3 style="text-align: center">Добавить категорию доходов</h3>
-        <form action="/category/add" method="post">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-            <input th:required="required" type="text" name="title" placeholder="Введите название категории (зарплата, вклад, инвестиции)" class="form-control"><br>
-
-            <!-- todo сделать константу -->
-            <input type="hidden" id="typeId" name="typeId" value="1" /><br>
-
-            <div style="text-align: center">
-                <button type="submit" class="btn btn-success">Добавить категорию доходов</button>
-            </div>
-        </form>
-
     </div>
 
     <div class="col">
@@ -67,18 +52,8 @@
                 </tbody>
             </table>
         </div>
-
-        <h3 style="text-align: center">Добавить категорию расходов</h3>
-        <form action="/category/add" method="post">
-            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
-            <input th:required="required" type="text" name="title" placeholder="Введите название категории (еда, одежда, развлечения)" class="form-control"><br>
-
-            <!-- todo сделать константу -->
-            <input type="hidden" id="typeId" name="typeId" value="2" /><br>
-
-            <div style="text-align: center">
-                <button type="submit" class="btn btn-success">Добавить категорию расходов</button>
-            </div>
-        </form>
     </div>
+
+    <div th:replace="~{blocks/account/category-add :: category-add}" />
+
 </div>

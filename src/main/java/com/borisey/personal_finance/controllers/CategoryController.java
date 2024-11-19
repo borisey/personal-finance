@@ -51,6 +51,26 @@ public class CategoryController {
         return "categories";
     }
 
+    // Добавление категории
+    @GetMapping("/category/add")
+    public String categoryAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление категории");
+        model.addAttribute("metaTitle", "Добавление категории");
+        model.addAttribute("metaDescription", "Добавление категории");
+        model.addAttribute("metaKeywords", "Добавление категории");
+
+        return "category-add";
+    }
+
     // Добавление новой категории доходов (зарплата, вклад) или расходов (еда, развлечения)
     @PostMapping("/category/add")
     public String accountAccountAdd(@RequestParam String title, @Nullable Byte typeId) {
