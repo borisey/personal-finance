@@ -31,6 +31,30 @@ public class BalanceController {
     @Autowired
     private UserService userService;
 
+    // Страница счетов пользователя
+    @GetMapping("/transactions")
+    public String getTransactions(Model model) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид все транзакции пользователя
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date", "id"));
+        model.addAttribute("allUserTransactions", allUserTransactions);
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Транзакции");
+        model.addAttribute("metaTitle", "Транзакции");
+        model.addAttribute("metaDescription", "Транзакции");
+        model.addAttribute("metaKeywords", "Транзакции");
+
+        return "transactions";
+    }
+
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {
