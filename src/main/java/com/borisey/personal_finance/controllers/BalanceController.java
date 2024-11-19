@@ -75,6 +75,46 @@ public class BalanceController {
         return "transaction-add";
     }
 
+    // Добавление дохода
+    @GetMapping("/income/add")
+    public String transactionIncomeAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление дохода");
+        model.addAttribute("metaTitle", "Добавление дохода");
+        model.addAttribute("metaDescription", "Добавление дохода");
+        model.addAttribute("metaKeywords", "Добавление дохода");
+
+        return "income-add";
+    }
+
+    // Добавление расхода
+    @GetMapping("/expense/add")
+    public String transactionExpenseAdd(Model model) {
+
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Добавление расхода");
+        model.addAttribute("metaTitle", "Добавление расхода");
+        model.addAttribute("metaDescription", "Добавление расхода");
+        model.addAttribute("metaKeywords", "Добавление расхода");
+
+        return "expense-add";
+    }
+
     // Пополнение
     @PostMapping("/balance/add-income")
     public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {
