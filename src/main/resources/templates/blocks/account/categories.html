@@ -1,0 +1,84 @@
+<div class="row" th:fragment="categories" xmlns:th="http://www.w3.org/1999/xhtml">
+    <div class="col">
+
+        <h3 style="text-align: center">Все категории доходов</h3>
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Название категории</th>
+                        <th>Общая сумма доходов по категории</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
+                    <td th:text="${userIncomeCategory.title}" />
+                    <td th:text="*{userIncomeCategory.allamount != null}? *{userIncomeCategory.allamount} : 0" />
+                    </td>
+                    <td>
+                        <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
+                        <a th:href="'/category/' + ${userIncomeCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+
+
+        <h3 style="text-align: center">Добавить категорию доходов</h3>
+        <form action="/category/add" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <input th:required="required" type="text" name="title" placeholder="Введите название категории (зарплата, вклад, инвестиции)" class="form-control"><br>
+
+            <!-- todo сделать константу -->
+            <input type="hidden" id="typeId" name="typeId" value="1" /><br>
+
+            <div style="text-align: center">
+                <button type="submit" class="btn btn-success">Добавить категорию доходов</button>
+            </div>
+        </form>
+
+    </div>
+
+    <div class="col">
+        <h3 style="text-align: center">Все категории расходов</h3>
+
+        <div class="table-responsive small">
+            <table class="table table-striped table-sm">
+                <thead>
+                    <tr>
+                        <th>Название категории</th>
+                        <th>Общая сумма расходов по категории</th>
+                        <th>Действия</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    <tr th:each="userExpenseCategory : ${allUserExpensesCategories}">
+                        <td th:text="${userExpenseCategory.title}" />
+                        <td th:text="*{userExpenseCategory.allamount != null}? *{userExpenseCategory.allamount} : 0" />
+                        <td>
+                            <a th:href="'/category/' + ${userExpenseCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
+                            <a th:href="'/category/' + ${userExpenseCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <h3 style="text-align: center">Добавить категорию расходов</h3>
+        <form action="/category/add" method="post">
+            <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
+            <input th:required="required" type="text" name="title" placeholder="Введите название категории (еда, одежда, развлечения)" class="form-control"><br>
+
+            <!-- todo сделать константу -->
+            <input type="hidden" id="typeId" name="typeId" value="2" /><br>
+
+            <div style="text-align: center">
+                <button type="submit" class="btn btn-success">Добавить категорию расходов</button>
+            </div>
+        </form>
+    </div>
+</div>

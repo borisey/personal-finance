@@ -7,6 +7,7 @@ import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.services.UserService;
 import jakarta.annotation.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -21,6 +22,34 @@ public class CategoryController {
     private CategoryRepository categoryRepository;
     @Autowired
     private UserService userService;
+
+    // Страница категорий пользователя
+    @GetMapping("/categories")
+    public String getCategories(Model model) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
+
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
+        // Передаю в вид имя пользователя
+        model.addAttribute("username", username);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Категории");
+        model.addAttribute("metaTitle", "Категории");
+        model.addAttribute("metaDescription", "Категории");
+        model.addAttribute("metaKeywords", "Категории");
+
+        return "categories";
+    }
 
     // Добавление новой категории доходов (зарплата, вклад) или расходов (еда, развлечения)
     @PostMapping("/category/add")
