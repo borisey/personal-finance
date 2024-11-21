@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Host: walletus.net
+
+Sitemap: https://walletus.net/sitemap.xml
