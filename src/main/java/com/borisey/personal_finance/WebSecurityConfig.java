@@ -27,7 +27,7 @@ public class WebSecurityConfig {
                                 "/",
                                 "/register",
                                 "/robots.txt",
-                                "/sitemal.xml",
+                                "/sitemap.xml",
                                 "/landing/**",
                                 "/account/**"
                         )
