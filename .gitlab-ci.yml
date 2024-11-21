@@ -13,5 +13,5 @@ deploy-production:
     - ssh-add <(echo "$SSH_PRIVATE_KEY")
     - ssh -o StrictHostKeyChecking=no borisey@185.105.109.67
       'cd /var/www/html/walletus.net && git pull origin main'
-    - ssh -oStrictHostKeyChecking=no borisey@185.105.109.67 '/bin/sh /stop_silent.sh'
-    - ssh -oStrictHostKeyChecking=no borisey@185.105.109.67 '/bin/sh /start_silent.sh'
+    - ssh -oStrictHostKeyChecking=no borisey@185.105.109.67 'sudo /bin/sh /stop_silent.sh'
+    - ssh -oStrictHostKeyChecking=no borisey@185.105.109.67 'sudo /bin/sh /start_silent.sh'
