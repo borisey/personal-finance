@@ -3,11 +3,14 @@ package com.borisey.personal_finance.controllers;
 import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.*;
 import com.borisey.personal_finance.services.UserService;
+import io.micrometer.common.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.time.LocalDateTime;
 
 @Controller
 public class MainController {
@@ -25,8 +28,18 @@ public class MainController {
     @Autowired
     private UserService userService;
 
-    @GetMapping("/my")
-    public String myPage(Model model) {
+    @GetMapping({"/my/dateFrom={dateFrom}&dateTo={dateTo}","/my"})
+    public String myPage(
+            @PathVariable(value = "dateFrom", required = false) String dateFrom,
+            @PathVariable(value = "dateTo", required = false) String dateTo,
+            Model model
+    ) {
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        LocalDateTime dateTimeFrom = StringUtils.isEmpty(dateFrom) ? currentDateTime.withDayOfMonth(1) : balanceController.formatDate(dateFrom);
+        LocalDateTime dateTimeTo = StringUtils.isEmpty(dateTo) ? currentDateTime :  balanceController.formatDate(dateTo);
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -36,11 +49,11 @@ public class MainController {
         // Категории
 
         // Передаю в вид все категории доходов
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид все категории расходов
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Счета
