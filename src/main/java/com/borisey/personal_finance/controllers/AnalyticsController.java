@@ -26,6 +26,10 @@ public class AnalyticsController {
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
 
+        // Передаю в вид имя пользователя
+        String username = currentUser.getUsername();
+        model.addAttribute("username", username);
+
         // Получаю все категории доходов
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
 
