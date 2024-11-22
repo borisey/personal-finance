@@ -37,6 +37,17 @@ public class AnalyticsController {
         // Передаю в вид доходы
         model.addAttribute("chartIncomeData", chartIncomeData);
 
+        // Получаю все категории расходов
+        Iterable<Category> allUserExpenseCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+
+        Map<String, Double> chartExpenseData = new TreeMap<>();
+        for (Category category : allUserExpenseCategories) {
+            chartExpenseData.put(category.getTitle(), -category.getAllamount());
+        }
+
+        // Передаю в вид расходы
+        model.addAttribute("chartExpenseData", chartExpenseData);
+
         // Передаю в вид метатэги
         model.addAttribute("h1", "Аналитика");
         model.addAttribute("metaTitle", "Аналитика");

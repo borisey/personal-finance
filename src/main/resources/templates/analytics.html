@@ -146,25 +146,25 @@
 
             <div style="justify-content: center;">
                 <h3>Анализ доходов</h3>
-                <div id="chart_div"></div>
-                <div id="piechart" style="width: 900px; height: 500px;"></div>
+                <div id="income_chart_div"></div>
+                <div id="income_piechart" style="width: 900px; height: 500px;"></div>
             </div>
 
             <script th:inline="javascript">
-                var real_data = /*[[${chartIncomeData}]]*/'noValue';
+                var real_income_data = /*[[${chartIncomeData}]]*/'noValue';
                 $(document).ready(function() {
                     google.charts.load('current', {
                         packages : [ 'corechart', 'bar' ]
                     });
-                    google.charts.setOnLoadCallback(drawColumnChart);
-                    google.charts.setOnLoadCallback(drawPieChart);
+                    google.charts.setOnLoadCallback(drawColumnIncomeChart);
+                    google.charts.setOnLoadCallback(drawIncomePieChart);
                 });
-                function drawColumnChart() {
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Категории доходов');
-                    data.addColumn('number', 'Общая сумма дохода');
-                    Object.keys(real_data).forEach(function(key) {
-                        data.addRow([ key, real_data[key] ]);
+                function drawColumnIncomeChart() {
+                    var income_data = new google.visualization.DataTable();
+                    income_data.addColumn('string', 'Категории доходов');
+                    income_data.addColumn('number', 'Общая сумма дохода');
+                    Object.keys(real_income_data).forEach(function(key) {
+                        income_data.addRow([ key, real_income_data[key] ]);
                     });
                     var options = {
                         title : 'Анализ доходов',
@@ -176,22 +176,75 @@
                         }
                     };
                     var chart = new google.visualization.ColumnChart(document
-                            .getElementById('chart_div'));
-                    chart.draw(data, options);
+                            .getElementById('income_chart_div'));
+                    chart.draw(income_data, options);
                 }
-                function drawPieChart() {
-                    var data = new google.visualization.DataTable();
-                    data.addColumn('string', 'Категории доходов');
-                    data.addColumn('number', 'Общая сумма дохода');
-                    Object.keys(real_data).forEach(function(key) {
-                        data.addRow([ key, real_data[key] ]);
+                function drawIncomePieChart() {
+                    var income_data = new google.visualization.DataTable();
+                    income_data.addColumn('string', 'Категории доходов');
+                    income_data.addColumn('number', 'Общая сумма дохода');
+                    Object.keys(real_income_data).forEach(function(key) {
+                        income_data.addRow([ key, real_income_data[key] ]);
                     });
                     var options = {
                         title : 'Анализ доходов'
                     };
                     var chart = new google.visualization.PieChart(document
-                            .getElementById('piechart'));
-                    chart.draw(data, options);
+                            .getElementById('income_piechart'));
+                    chart.draw(income_data, options);
+                }
+            </script>
+
+
+
+            <div style="justify-content: center;">
+                <h3>Анализ расходов</h3>
+                <div id="expense_chart_div"></div>
+                <div id="expense_piechart" style="width: 900px; height: 500px;"></div>
+            </div>
+
+            <script th:inline="javascript">
+                var real_expense_data = /*[[${chartExpenseData}]]*/'noValue';
+                $(document).ready(function() {
+                    google.charts.load('current', {
+                        packages : [ 'corechart', 'bar' ]
+                    });
+                    google.charts.setOnLoadCallback(drawColumnExpenseChart);
+                    google.charts.setOnLoadCallback(drawExpensePieChart);
+                });
+                function drawColumnExpenseChart() {
+                    var expense_data = new google.visualization.DataTable();
+                    expense_data.addColumn('string', 'Категории доходов');
+                    expense_data.addColumn('number', 'Общая сумма дохода');
+                    Object.keys(real_expense_data).forEach(function(key) {
+                        expense_data.addRow([ key, real_expense_data[key] ]);
+                    });
+                    var options = {
+                        title : 'Анализ доходов',
+                        hAxis : {
+                            title : 'Категории доходов',
+                        },
+                        vAxis : {
+                            title : 'Общая сумма дохода'
+                        }
+                    };
+                    var chart = new google.visualization.ColumnChart(document
+                            .getElementById('expense_chart_div'));
+                    chart.draw(expense_data, options);
+                }
+                function drawExpensePieChart() {
+                    var expense_data = new google.visualization.DataTable();
+                    expense_data.addColumn('string', 'Категории доходов');
+                    expense_data.addColumn('number', 'Общая сумма дохода');
+                    Object.keys(real_expense_data).forEach(function(key) {
+                        expense_data.addRow([ key, real_expense_data[key] ]);
+                    });
+                    var options = {
+                        title : 'Анализ доходов'
+                    };
+                    var chart = new google.visualization.PieChart(document
+                            .getElementById('expense_piechart'));
+                    chart.draw(expense_data, options);
                 }
             </script>
 
