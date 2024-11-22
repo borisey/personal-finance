@@ -214,18 +214,18 @@
                 });
                 function drawColumnExpenseChart() {
                     var expense_data = new google.visualization.DataTable();
-                    expense_data.addColumn('string', 'Категории доходов');
-                    expense_data.addColumn('number', 'Общая сумма дохода');
+                    expense_data.addColumn('string', 'Категории расходов');
+                    expense_data.addColumn('number', 'Общая сумма расходов');
                     Object.keys(real_expense_data).forEach(function(key) {
                         expense_data.addRow([ key, real_expense_data[key] ]);
                     });
                     var options = {
-                        title : 'Анализ доходов',
+                        title : 'Анализ расходов',
                         hAxis : {
-                            title : 'Категории доходов',
+                            title : 'Категории расходов',
                         },
                         vAxis : {
-                            title : 'Общая сумма дохода'
+                            title : 'Общая сумма расходов'
                         }
                     };
                     var chart = new google.visualization.ColumnChart(document
@@ -234,13 +234,13 @@
                 }
                 function drawExpensePieChart() {
                     var expense_data = new google.visualization.DataTable();
-                    expense_data.addColumn('string', 'Категории доходов');
-                    expense_data.addColumn('number', 'Общая сумма дохода');
+                    expense_data.addColumn('string', 'Категории расходов');
+                    expense_data.addColumn('number', 'Общая сумма расходов');
                     Object.keys(real_expense_data).forEach(function(key) {
                         expense_data.addRow([ key, real_expense_data[key] ]);
                     });
                     var options = {
-                        title : 'Анализ доходов'
+                        title : 'Анализ расходов'
                     };
                     var chart = new google.visualization.PieChart(document
                             .getElementById('expense_piechart'));
