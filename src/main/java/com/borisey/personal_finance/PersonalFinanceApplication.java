@@ -18,7 +18,7 @@ public class PersonalFinanceApplication implements CommandLineRunner {
 	}
 
 	@Override
-	public void run(String... args) throws Exception {
+	public void run(String... args) {
 		Type type1 = new Type();
 		type1.setId(1L);
 		type1.setTitle("Доход");

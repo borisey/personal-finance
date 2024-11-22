@@ -34,7 +34,14 @@ public class AnalyticsController {
             chartIncomeData.put(category.getTitle(), category.getAllamount());
         }
 
+        // Передаю в вид доходы
         model.addAttribute("chartIncomeData", chartIncomeData);
+
+        // Передаю в вид метатэги
+        model.addAttribute("h1", "Аналитика");
+        model.addAttribute("metaTitle", "Аналитика");
+        model.addAttribute("metaDescription", "Аналитика");
+        model.addAttribute("metaKeywords", "Аналитика");
 
         return "analytics";
     }
