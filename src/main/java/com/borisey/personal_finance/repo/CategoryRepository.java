@@ -19,7 +19,7 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
             + " AND t.date<=?4 "
             + " GROUP BY category.id "
             , nativeQuery = true)
-    Iterable<Category> findByUserIdAndTypeIdAmount(Long userId, Byte typeId, LocalDateTime dateFrom, LocalDateTime dateTo, Sort colName);
+    Iterable<Category> findByUserIdAndTypeIdAmount(Long userId, Byte typeId, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Sort colName);
 
 //    @Query(value = "SELECT b.* FROM balance b WHERE b.userId = ?1 AND b.typeId = ?2")
     Iterable<Category> findByUserIdAndTypeId(Long userId, Byte typeId, Sort colName);

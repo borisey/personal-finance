@@ -143,6 +143,15 @@
                 <h1 class="h2" th:text="${h1}" />
             </div>
 
+            <form action="/analytics" method="get">
+
+                <input th:required="required" type="date" name="dateFrom" placeholder="Выберите дату начала" th:value="${dateFrom}" id="dateFrom" class="form-control"/><br>
+                <input th:required="required" type="date" name="dateTo" placeholder="Выберите дату завершения" th:value="${dateTo}" id="dateTo" class="form-control"/><br>
+
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-success">Получить аналитику</button>
+                </div>
+            </form>
 
             <div style="justify-content: center;">
                 <h3 style="text-align: center;">Анализ доходов</h3>

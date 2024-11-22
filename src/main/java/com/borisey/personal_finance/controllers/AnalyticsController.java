@@ -9,6 +9,7 @@ import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -23,18 +24,36 @@ public class AnalyticsController {
     @Autowired
     private UserService userService;
 
-    @GetMapping({"/analytics/dateFrom={dateFrom}&dateTo={dateTo}","/analytics"})
+    @GetMapping("/analytics")
     public String getAnalytics(
-            @PathVariable(value = "dateFrom", required = false) String dateFrom,
-            @PathVariable(value = "dateTo", required = false) String dateTo,
+            HttpServletRequest request,
             Model model
     ) {
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
         // todo вынести метод в другой класс
         BalanceController balanceController = new BalanceController();
 
         LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime dateTimeFrom = StringUtils.isEmpty(dateFrom) ? currentDateTime.withDayOfMonth(1) : balanceController.formatDate(dateFrom);
-        LocalDateTime dateTimeTo = StringUtils.isEmpty(dateTo) ? currentDateTime :  balanceController.formatDate(dateTo);
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -65,6 +84,9 @@ public class AnalyticsController {
 
         // Передаю в вид расходы
         model.addAttribute("chartExpenseData", chartExpenseData);
+
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Аналитика");
