@@ -7,12 +7,13 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface BalanceRepository extends CrudRepository<Balance, Long> {
 
     Iterable<Balance> findAll(Sort colName);
 
-    Iterable<Balance> findByUserId(Long userId, Sort colName);
+    Optional<Balance> findByIdAndUserId(Long id, Long userId);
 
     // Запрос транзакций пользователя с ограничением дат
     @Query(value = "SELECT b FROM Balance b WHERE b.userId = ?1 AND b.date >= ?2 AND b.date <= ?3")

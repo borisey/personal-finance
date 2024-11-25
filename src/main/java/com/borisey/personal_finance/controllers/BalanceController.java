@@ -13,11 +13,8 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class BalanceController {
@@ -356,19 +353,18 @@ public class BalanceController {
 
     // Редактирование дохода
     @GetMapping("/transaction/income/{id}/edit")
-    public String incomeEdit(@PathVariable(value = "id") Long id, Model model) {
-
+    public String incomeEdit(
+            @PathVariable(value = "id") Long id,
+            Model model
+    ) {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo Если статью добавил не этот пользователь (запретить редактирование)
-
-        Optional<Balance> transaction = balanceRepository.findById(id);
-        ArrayList<Balance> res = new ArrayList<>();
-        transaction.ifPresent(res::add);
-        model.addAttribute("transaction", res);
+        // Пользователь не может редактировать чужие записи
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
+        model.addAttribute("transaction", transaction);
 
         // Счета
 
@@ -405,7 +401,13 @@ public class BalanceController {
             Long accountId,
             String date
     ) {
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+        String username = currentUser.getUsername();
+
+        // Пользователь не может редактировать чужие записи
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
 
         // Сохраняю категорию
         Category category = categoryRepository.findById(categoryId).orElseThrow();
@@ -427,7 +429,6 @@ public class BalanceController {
         transaction.setDate(formatDate(date));
 
         // Сохраняю ID текущего пользователя
-        User currentUser = userService.getCurrentUser();
         transaction.setUserId(currentUser.getId());
 
         // Сохраняю дату и время обновления записи
@@ -443,18 +444,18 @@ public class BalanceController {
 
     // Редактирование расхода
     @GetMapping("/transaction/expense/{id}/edit")
-    public String expenseEdit(@PathVariable(value = "id") Long id, Model model) {
-
+    public String expenseEdit(
+            @PathVariable(value = "id") Long id,
+            Model model
+    ) {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo Если расход добавил не этот пользователь (запретить редактирование)
+        // Пользователь не может редактировать чужие записи
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
 
-
-        // todo искать также по пользователю
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
         transaction.setAmount(-transaction.getAmount());
 
         model.addAttribute("transaction", transaction);
@@ -494,7 +495,12 @@ public class BalanceController {
             Long accountId,
             String date
     ) {
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+
+        // Пользователь не может редактировать чужие записи
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
 
         // Сохраняю категорию
         Category category = categoryRepository.findById(categoryId).orElseThrow();
@@ -517,7 +523,6 @@ public class BalanceController {
         transaction.setDate(formatDate(date));
 
         // Сохраняю ID текущего пользователя
-        User currentUser = userService.getCurrentUser();
         transaction.setUserId(currentUser.getId());
 
         // Сохраняю дату и время обновления записи
@@ -534,12 +539,14 @@ public class BalanceController {
     @GetMapping("/balance/{id}/delete")
     public String transactionDelete(
             HttpServletRequest request,
-            @PathVariable(value = "id") long id,
-            Model model
+            @PathVariable(value = "id") long id
     ) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
 
-        // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
+        // Пользователь не может удалять чужие записи
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
 
         // todo доработать Если транзакцию добавил не этот пользователь
 
