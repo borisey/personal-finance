@@ -14,9 +14,8 @@
 
                 <tbody>
                     <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
-                        <td th:text="${userIncomeCategory.title}" />
-                        <td th:text="*{userIncomeCategory.allamount != null}? *{userIncomeCategory.allamount} : 0" />
-                        </td>
+                        <td style="text-align: center;" th:text="${userIncomeCategory.title}" />
+                        <td style="text-align: center;" th:text="*{userIncomeCategory.allamount != null}? *{userIncomeCategory.allamount} : 0" />
                         <td style="text-align: center;">
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>
@@ -42,8 +41,8 @@
 
                 <tbody>
                     <tr th:each="userExpenseCategory : ${allUserExpensesCategories}">
-                        <td th:text="${userExpenseCategory.title}" />
-                        <td th:text="*{userExpenseCategory.allamount != null}? *{userExpenseCategory.allamount} : 0" />
+                        <td style="text-align: center;" th:text="${userExpenseCategory.title}" />
+                        <td style="text-align: center;" th:text="*{userExpenseCategory.allamount != null}? *{userExpenseCategory.allamount} : 0" />
                         <td style="text-align: center;">
                             <a th:href="'/category/' + ${userExpenseCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                             <a th:href="'/category/' + ${userExpenseCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>

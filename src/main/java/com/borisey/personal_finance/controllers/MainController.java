@@ -72,11 +72,11 @@ public class MainController {
 
         // Категории
 
-        // Передаю в вид все категории доходов
+        // Передаю в вид все категории доходов todo сделать константу
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
-        // Передаю в вид все категории расходов
+        // Передаю в вид все категории расходов todo сделать константу
         Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
