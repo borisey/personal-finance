@@ -19,7 +19,6 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class AnalyticsController {
@@ -93,6 +92,7 @@ public class AnalyticsController {
         // Передаю в вид расходы
         model.addAttribute("chartExpenseData", chartExpenseData);
 
+        // Передаю в вид даты для запроса аналитики
         model.addAttribute("dateFrom", dateFrom);
         model.addAttribute("dateTo", dateTo);
 

@@ -4,6 +4,7 @@ import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.*;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -11,6 +12,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 @Controller
 public class MainController {
@@ -30,16 +32,38 @@ public class MainController {
 
     @GetMapping({"/my/dateFrom={dateFrom}&dateTo={dateTo}","/my"})
     public String myPage(
-            @PathVariable(value = "dateFrom", required = false) String dateFrom,
-            @PathVariable(value = "dateTo", required = false) String dateTo,
+            HttpServletRequest request,
             Model model
     ) {
         // todo вынести метод в другой класс
         BalanceController balanceController = new BalanceController();
 
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
         LocalDateTime currentDateTime = LocalDateTime.now();
-        LocalDateTime dateTimeFrom = StringUtils.isEmpty(dateFrom) ? currentDateTime.withDayOfMonth(1) : balanceController.formatDate(dateFrom);
-        LocalDateTime dateTimeTo = StringUtils.isEmpty(dateTo) ? currentDateTime :  balanceController.formatDate(dateTo);
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
+
+        // Передаю в вид даты для запроса аналитики
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -64,12 +88,12 @@ public class MainController {
 
         // Общая сумма доходов
         Type typeIncome = typeRepository.findById(1L).orElseThrow(); // todo сделать константу
-        Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeId(userId, typeIncome);
+        Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeIncome, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserIncome", allUserIncome);
 
         // Общая сумма расходов
         Type typeExpense = typeRepository.findById(2L).orElseThrow(); // todo сделать константу
-        Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeId(userId, typeExpense);
+        Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeExpense, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserExpense", allUserExpense);
 
         // Общая сумма на всех счетах
@@ -77,7 +101,7 @@ public class MainController {
         model.addAttribute("allUserAmount", allUserAmount);
 
         // Передаю в вид все транзакции пользователя
-        Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date", "id"));
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Передаю в вид имя пользователя

@@ -72,16 +72,27 @@
 
 
 <!--        <main>-->
+
+            <form action="/my" method="get">
+
+                <input th:required="required" type="date" name="dateFrom" placeholder="Выберите дату начала" th:value="${dateFrom}" id="dateFrom" class="form-control"/><br>
+                <input th:required="required" type="date" name="dateTo" placeholder="Выберите дату завершения" th:value="${dateTo}" id="dateTo" class="form-control"/><br>
+
+                <div style="text-align: center">
+                    <button type="submit" class="btn btn-success">Получить аналитику</button>
+                </div>
+            </form>
+
             <div class="row">
                 <div class="col">
                     <h3 style="text-align: center" th:each="userIncome : ${allUserIncome}">
-                        <p th:text="'Доходы за весь период: ' + ${#numbers.formatDecimal(userIncome, 1, 2)}" />
+                        <p th:text="'Доходы за указанный период: ' + ${#numbers.formatDecimal(userIncome, 1, 2)}" />
                     </h3>
 
                 </div>
                 <div class="col">
                     <h3 style="text-align: center" th:each="userExpense : ${allUserExpense}">
-                        <p th:text="'Расходы за весь период: ' + ${#numbers.formatDecimal(userExpense, 1, 2)}" />
+                        <p th:text="'Расходы за указанный период: ' + ${#numbers.formatDecimal(userExpense, 1, 2)}" />
                     </h3>
                 </div>
             </div>
