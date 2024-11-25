@@ -189,22 +189,19 @@ public class CategoryController {
 
     // Редактирование счета
     @GetMapping("/category/{id}/edit")
-    public String categoryEdit(@PathVariable(value = "id") Long id, Model model) {
-
+    public String categoryEdit(
+            @PathVariable(value = "id") Long id,
+            Model model
+    ) {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo искать также по пользователю
-        Category transaction = categoryRepository.findById(id).orElseThrow();
+        // Пользователь не может редактировать чужие записи
+        Category category = categoryRepository.findByIdAndUserId(id, userId).orElseThrow();
 
-        // todo Если статью добавил не этот пользователь (запретить редактирование)
-
-        Optional<Category> link = categoryRepository.findById(id);
-        ArrayList<Category> res = new ArrayList<>();
-        link.ifPresent(res::add);
-        model.addAttribute("categories", res);
+        model.addAttribute("categories", category);
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
@@ -225,9 +222,13 @@ public class CategoryController {
             @RequestParam
             String title
     ) {
-        // todo проверять пользователя
-        // Сохраняю категорию
-        Category category = categoryRepository.findById(id).orElseThrow();
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+
+        // Пользователь не может редактировать чужие записи
+        Category category = categoryRepository.findByIdAndUserId(id, userId).orElseThrow();
+
         category.setTitle(title);
         category.setBudget(budget);
 
@@ -245,12 +246,14 @@ public class CategoryController {
     @GetMapping("/category/{id}/delete")
     public String linkCategoryDelete(
             HttpServletRequest request,
-            @PathVariable(value = "id") long id,
-            Model model
+            @PathVariable(value = "id") long id
     ) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
 
-        // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
-        Category category = categoryRepository.findById(id).orElseThrow();
+        // Пользователь не может редактировать чужие записи
+        Category category = categoryRepository.findByIdAndUserId(id, userId).orElseThrow();
 
         // todo доработать Если транзакцию добавил не этот пользователь
         categoryRepository.delete(category);

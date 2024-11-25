@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class AccountController {
@@ -104,22 +102,19 @@ public class AccountController {
 
     // Редактирование счета
     @GetMapping("/account/{id}/edit")
-    public String accountEdit(@PathVariable(value = "id") Long id, Model model) {
-
+    public String accountEdit(
+            @PathVariable(value = "id") Long id,
+            Model model
+    ) {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo искать также по пользователю
-        Account transaction = accountRepository.findById(id).orElseThrow();
+        // Пользователь не может редактировать чужие записи
+        Account account = accountRepository.findByIdAndUserId(id, userId).orElseThrow();
 
-        // todo Если статью добавил не этот пользователь (запретить редактирование)
-
-        Optional<Account> link = accountRepository.findById(id);
-        ArrayList<Account> res = new ArrayList<>();
-        link.ifPresent(res::add);
-        model.addAttribute("account", res);
+        model.addAttribute("account", account);
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
@@ -141,9 +136,13 @@ public class AccountController {
             Double amount,
             String title
     ) {
-        // todo проверять пользователя
-        // Сохраняю счет
-        Account account = accountRepository.findById(id).orElseThrow();
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
+
+        // Пользователь не может редактировать чужие записи
+        Account account = accountRepository.findByIdAndUserId(id, userId).orElseThrow();
+
         account.setAmount(amount);
         account.setTitle(title);
         accountRepository.save(account);
@@ -156,14 +155,14 @@ public class AccountController {
     @GetMapping("/account/{id}/delete")
     public String linkLinkRemove(
             HttpServletRequest request,
-            @PathVariable(value = "id") long id,
-            Model model
+            @PathVariable(value = "id") long id
     ) {
+        // Получаю ID текущего пользователя
+        User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
 
-        // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
-        Account account = accountRepository.findById(id).orElseThrow();
-
-        // todo доработать Если транзакцию добавил не этот пользователь
+        // Пользователь не может удалять чужие записи
+        Account account = accountRepository.findByIdAndUserId(id, userId).orElseThrow();
 
         accountRepository.delete(account);
 

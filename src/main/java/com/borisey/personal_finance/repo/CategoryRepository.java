@@ -1,13 +1,17 @@
 package com.borisey.personal_finance.repo;
 
+import com.borisey.personal_finance.models.Balance;
 import com.borisey.personal_finance.models.Category;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 import java.time.LocalDateTime;
+import java.util.Optional;
 
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Iterable<Category> findAll(Sort colName);
+
+    Optional<Category> findByIdAndUserId(Long id, Long userId);
 
     @Query(value = "SELECT category.id, category.budget, category.title, category.created, category.parent_id, category.type_id, category.updated, category.user_id, IFNULL(SUM(balance.amount), 0) as allamount "
             + " FROM category category "
