@@ -4,9 +4,13 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
+import com.borisey.personal_finance.models.Balance;
 import com.borisey.personal_finance.models.Category;
+import com.borisey.personal_finance.models.Type;
 import com.borisey.personal_finance.models.User;
+import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
+import com.borisey.personal_finance.repo.TypeRepository;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -21,6 +25,10 @@ import org.springframework.web.bind.annotation.PathVariable;
 public class AnalyticsController {
     @Autowired
     private CategoryRepository categoryRepository;
+    @Autowired
+    private TypeRepository typeRepository;
+    @Autowired
+    private BalanceRepository balanceRepository;
     @Autowired
     private UserService userService;
 
@@ -87,6 +95,16 @@ public class AnalyticsController {
 
         model.addAttribute("dateFrom", dateFrom);
         model.addAttribute("dateTo", dateTo);
+
+        // Общая сумма доходов
+        Type typeIncome = typeRepository.findById(1L).orElseThrow(); // todo сделать константу
+        Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeIncome, dateTimeFrom, dateTimeTo);
+        model.addAttribute("allUserIncome", allUserIncome);
+
+        // Общая сумма расходов
+        Type typeExpense = typeRepository.findById(2L).orElseThrow(); // todo сделать константу
+        Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeExpense, dateTimeFrom, dateTimeTo);
+        model.addAttribute("allUserExpense", allUserExpense);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Аналитика");

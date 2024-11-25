@@ -153,6 +153,20 @@
                 </div>
             </form>
 
+            <div class="row">
+                <div class="col">
+                    <h3 style="text-align: center" th:each="userIncome : ${allUserIncome}">
+                        <p th:text="'Доходы за указанный период: ' + ${#numbers.formatDecimal(userIncome, 1, 2)}" />
+                    </h3>
+
+                </div>
+                <div class="col">
+                    <h3 style="text-align: center" th:each="userExpense : ${allUserExpense}">
+                        <p th:text="'Расходы за указанный период: ' + ${#numbers.formatDecimal(userExpense, 1, 2)}" />
+                    </h3>
+                </div>
+            </div>
+
             <div style="justify-content: center;">
                 <h3 style="text-align: center;">Анализ доходов</h3>
                 <div id="income_chart_div"></div>
