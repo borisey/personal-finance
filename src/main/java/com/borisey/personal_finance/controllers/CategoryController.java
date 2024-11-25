@@ -1,6 +1,5 @@
 package com.borisey.personal_finance.controllers;
 
-import com.borisey.personal_finance.models.Account;
 import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.CategoryRepository;
@@ -13,10 +12,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.Optional;
 
 @Controller
 public class CategoryController {
@@ -244,7 +243,7 @@ public class CategoryController {
     }
 
     @GetMapping("/category/{id}/delete")
-    public String linkCategoryDelete(
+    public String categoryDelete(
             HttpServletRequest request,
             @PathVariable(value = "id") long id
     ) {
@@ -255,8 +254,11 @@ public class CategoryController {
         // Пользователь не может редактировать чужие записи
         Category category = categoryRepository.findByIdAndUserId(id, userId).orElseThrow();
 
-        // todo доработать Если транзакцию добавил не этот пользователь
-        categoryRepository.delete(category);
+        try {
+            categoryRepository.delete(category);
+        } catch (Exception e) {
+            return "redirect:/deletion-disallow";
+        }
 
         String referrer = request.getHeader("Referer");
 

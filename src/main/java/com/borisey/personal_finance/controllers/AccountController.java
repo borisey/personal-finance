@@ -164,6 +164,12 @@ public class AccountController {
         // Пользователь не может удалять чужие записи
         Account account = accountRepository.findByIdAndUserId(id, userId).orElseThrow();
 
+        try {
+            accountRepository.delete(account);
+        } catch (Exception e) {
+            return "redirect:/deletion-disallow";
+        }
+
         accountRepository.delete(account);
 
         String referrer = request.getHeader("Referer");

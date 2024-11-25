@@ -404,7 +404,6 @@ public class BalanceController {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
-        String username = currentUser.getUsername();
 
         // Пользователь не может редактировать чужие записи
         Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
@@ -546,9 +545,13 @@ public class BalanceController {
         Long userId = currentUser.getId();
 
         // Пользователь не может удалять чужие записи
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
+        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
 
-        balanceRepository.delete(transaction);
+        try {
+            balanceRepository.delete(transaction);
+        } catch (Exception e) {
+            return "redirect:/deletion-disallow";
+        }
 
         String referrer = request.getHeader("Referer");
 

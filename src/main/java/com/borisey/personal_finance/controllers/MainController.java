@@ -126,4 +126,9 @@ public class MainController {
     public String registerSuccess() {
         return "register-success";
     }
+
+    @GetMapping("/deletion-disallow")
+    public String deletionDisallow() {
+        return "deletion-disallow";
+    }
 }
