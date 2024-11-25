@@ -4,6 +4,8 @@
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
         <input th:required="required" type="text" name="title" placeholder="Введите название категории (зарплата, вклад, инвестиции)" class="form-control"><br>
 
+        <input th:required="required" type="text" name="budget" placeholder="Введите планируемый бюджет расхода" class="form-control"><br>
+
         <!-- todo сделать константу -->
         <input type="hidden" id="typeId" name="typeId" value="1" /><br>
 

@@ -26,6 +26,17 @@ public class Category {
         return allamount;
     }
 
+    // Сумма поступления или списания
+    private Double budget;
+
+    public Double getBudget() {
+        return budget;
+    }
+
+    public void setBudget(Double budget) {
+        this.budget = budget;
+    }
+
     public void setAllamount(Double allamount) {
         this.allamount = allamount;
     }

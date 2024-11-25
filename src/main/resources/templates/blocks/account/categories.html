@@ -7,6 +7,7 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">Название категории</th>
+                        <th style="text-align: center;">Прогноз бюджета</th>
                         <th style="text-align: center;">Действия</th>
                     </tr>
                 </thead>
@@ -14,6 +15,7 @@
                 <tbody>
                     <tr th:each="userIncomeCategory : ${allUserIncomeCategories}">
                         <td style="text-align: center;" th:text="${userIncomeCategory.title}" />
+                        <td style="text-align: center;" th:text="${userIncomeCategory.budget}" />
                         <td style="text-align: center;">
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                             <a th:href="'/category/' + ${userIncomeCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>
@@ -32,6 +34,7 @@
                 <thead>
                     <tr>
                         <th style="text-align: center;">Название категории</th>
+                        <th style="text-align: center;">Прогноз бюджета</th>
                         <th style="text-align: center;">Действия</th>
                     </tr>
                 </thead>
@@ -39,6 +42,7 @@
                 <tbody>
                     <tr th:each="userExpenseCategory : ${allUserExpensesCategories}">
                         <td style="text-align: center;" th:text="${userExpenseCategory.title}" />
+                        <td style="text-align: center;" th:text="${userExpenseCategory.budget}" />
                         <td style="text-align: center;">
                             <a th:href="'/category/' + ${userExpenseCategory.id} + '/edit'"><i class="far fa-edit"></i></a>
                             <a th:href="'/category/' + ${userExpenseCategory.id} + '/delete'"><i class="far fa-trash-alt"></i></a>

@@ -78,13 +78,14 @@ public class CategoryController {
     @PostMapping("/category/add")
     public String categoryAdd(
             HttpServletRequest request,
-            @RequestParam String title, @Nullable Byte typeId
+            @RequestParam String title, Double budget, @Nullable Byte typeId
     )
     {
         Category category = new Category();
         LocalDateTime currentDateTime = LocalDateTime.now();
         category.setTitle(title);
         category.setTypeId(typeId);
+        category.setBudget(budget);
 
         // Сохраняю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -187,7 +188,7 @@ public class CategoryController {
     @PostMapping("/category/{id}/edit")
     public String categoryEdit(
             HttpServletRequest request,
-            @PathVariable(value = "id") Long id,
+            @PathVariable(value = "id") Long id, Double budget,
             @RequestParam
             String title
     ) {
@@ -195,6 +196,7 @@ public class CategoryController {
         // Сохраняю категорию
         Category category = categoryRepository.findById(id).orElseThrow();
         category.setTitle(title);
+        category.setBudget(budget);
 
         // Меняю дату обновления
         LocalDateTime currentDateTime = LocalDateTime.now();

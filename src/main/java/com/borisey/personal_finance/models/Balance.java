@@ -93,6 +93,9 @@ public class Balance {
         this.date = date;
     }
 
+    // Сумма поступления или списания
+    private Double amount;
+
     public Double getAmount() {
         return amount;
     }
@@ -123,9 +126,6 @@ public class Balance {
     // Дата пополнения или списания (выбирается пользователем)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     private LocalDateTime date;
-
-    // Сумма поступления или списания
-    private Double amount;
 
     // Дата создания записи (заполняется автоматически)
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
