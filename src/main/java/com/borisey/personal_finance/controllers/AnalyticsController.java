@@ -4,10 +4,8 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 
-import com.borisey.personal_finance.models.Balance;
-import com.borisey.personal_finance.models.Category;
-import com.borisey.personal_finance.models.Type;
-import com.borisey.personal_finance.models.User;
+import com.borisey.personal_finance.models.*;
+import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
@@ -30,6 +28,8 @@ public class AnalyticsController {
     private BalanceRepository balanceRepository;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AccountRepository accountRepository;
 
     @GetMapping("/analytics")
     public String getAnalytics(
@@ -82,6 +82,10 @@ public class AnalyticsController {
 
         // Передаю в вид доходы
         model.addAttribute("chartIncomeData", chartIncomeData);
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Получаю все категории расходов
         Iterable<Category> allUserExpenseCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
