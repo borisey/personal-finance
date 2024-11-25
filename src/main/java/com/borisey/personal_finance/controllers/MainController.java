@@ -2,6 +2,7 @@ package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.*;
+import com.borisey.personal_finance.services.FormatService;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -50,7 +51,7 @@ public class MainController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -58,7 +59,7 @@ public class MainController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Передаю в вид даты для запроса аналитики

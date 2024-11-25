@@ -5,6 +5,7 @@ import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
+import com.borisey.personal_finance.services.FormatService;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -49,7 +50,7 @@ public class BalanceController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -57,7 +58,7 @@ public class BalanceController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Передаю в вид даты для запроса аналитики
@@ -136,7 +137,7 @@ public class BalanceController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -144,7 +145,7 @@ public class BalanceController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Передаю в вид даты для запроса аналитики
@@ -204,7 +205,7 @@ public class BalanceController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -212,7 +213,7 @@ public class BalanceController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Передаю в вид даты для запроса аналитики
@@ -278,7 +279,7 @@ public class BalanceController {
 
         // Сохраняю сумму
         balance.setAmount(amount);
-        balance.setDate(formatDate(date));
+        balance.setDate(FormatService.formatDate(date));
 
         Type type = typeRepository.findById(Type.INCOME).orElseThrow();
         balance.setType(type);
@@ -325,7 +326,7 @@ public class BalanceController {
 
         // Списание с отрицательным знаком
         balance.setAmount(-amount);
-        balance.setDate(formatDate(date));
+        balance.setDate(FormatService.formatDate(date));
 
         Type type = typeRepository.findById(Type.EXPENSE).orElseThrow();
         balance.setType(type);
@@ -421,7 +422,7 @@ public class BalanceController {
         transaction.setType(type);
 
         transaction.setAmount(amount);
-        transaction.setDate(formatDate(date));
+        transaction.setDate(FormatService.formatDate(date));
 
         // Сохраняю ID текущего пользователя
         transaction.setUserId(currentUser.getId());
@@ -513,9 +514,9 @@ public class BalanceController {
         Type type = typeRepository.findById(typeId).orElseThrow();
         transaction.setType(type);
 
-        // todo: у списания менять знак
+        // У списания меняется знак
         transaction.setAmount(-amount);
-        transaction.setDate(formatDate(date));
+        transaction.setDate(FormatService.formatDate(date));
 
         // Сохраняю ID текущего пользователя
         transaction.setUserId(currentUser.getId());
@@ -553,12 +554,4 @@ public class BalanceController {
 
         return "redirect:" + referrer;
     }
-
-    // Привожу строку с датой к формату LocalDateTime
-    public LocalDateTime formatDate(String date) {
-        DateTimeFormatter dateTimeFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-
-        return LocalDateTime.parse(date + " 00:00:00", dateTimeFormatter);
-    }
-
 }

@@ -9,6 +9,7 @@ import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
+import com.borisey.personal_finance.services.FormatService;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.servlet.http.HttpServletRequest;
@@ -51,7 +52,7 @@ public class AnalyticsController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -59,7 +60,7 @@ public class AnalyticsController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Получаю ID текущего пользователя

@@ -41,8 +41,7 @@ public class Account {
 
     private Long userId;
 
-    // todo добавить значение по умолчанию
-    private Double amount;
+    private Double amount = 0.0;
 
     public Double getAmount() {
         return amount;

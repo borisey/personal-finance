@@ -4,6 +4,7 @@ import com.borisey.personal_finance.models.Category;
 import com.borisey.personal_finance.models.Type;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.CategoryRepository;
+import com.borisey.personal_finance.services.FormatService;
 import com.borisey.personal_finance.services.UserService;
 import io.micrometer.common.util.StringUtils;
 import jakarta.annotation.Nullable;
@@ -14,7 +15,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -47,7 +47,7 @@ public class CategoryController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -55,7 +55,7 @@ public class CategoryController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Передаю в вид даты для запроса аналитики
@@ -154,7 +154,7 @@ public class CategoryController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -162,7 +162,7 @@ public class CategoryController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Получаю ID текущего пользователя
@@ -207,7 +207,7 @@ public class CategoryController {
             dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
             dateTimeFrom = currentDateTime.withDayOfMonth(1);
         } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
+            dateTimeFrom = FormatService.formatDate(dateFrom);
         }
 
         if (StringUtils.isEmpty(dateTo)) {
@@ -215,7 +215,7 @@ public class CategoryController {
             dateTimeTo = currentDateTime;
             dateTo = currentDateTime.format(formatter);
         } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
+            dateTimeTo = FormatService.formatDate(dateTo);
         }
 
         // Получаю ID текущего пользователя
