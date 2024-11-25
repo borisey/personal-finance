@@ -124,10 +124,6 @@ public class CategoryController {
         User currentUser = userService.getCurrentUser();
         category.setUserId(currentUser.getId());
 
-        // todo передавать ID родительской категории
-        category.setParentId(null);
-//        category.setAllamount(null);
-
         category.setCreated(currentDateTime);
         category.setUpdated(currentDateTime);
         categoryRepository.save(category);

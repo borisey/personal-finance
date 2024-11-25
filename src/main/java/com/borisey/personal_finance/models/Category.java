@@ -38,8 +38,7 @@ public class Category {
         this.allamount = allamount;
     }
 
-    // Может быть родительская категория и подкатегории
-    private Long userId, parentId;
+    private Long userId;
 
     // Тип категории (доходы или расходы)
     private Byte typeId;
@@ -78,14 +77,6 @@ public class Category {
 
     public void setUserId(Long userId) {
         this.userId = userId;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public Byte getTypeId() {
