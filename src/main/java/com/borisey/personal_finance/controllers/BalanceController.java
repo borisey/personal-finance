@@ -363,14 +363,11 @@ public class BalanceController {
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo искать также по пользователю
-        Balance transaction = balanceRepository.findById(id).orElseThrow();
-
         // todo Если статью добавил не этот пользователь (запретить редактирование)
 
-        Optional<Balance> link = balanceRepository.findById(id);
+        Optional<Balance> transaction = balanceRepository.findById(id);
         ArrayList<Balance> res = new ArrayList<>();
-        link.ifPresent(res::add);
+        transaction.ifPresent(res::add);
         model.addAttribute("transaction", res);
 
         // Счета
@@ -455,14 +452,11 @@ public class BalanceController {
 
         // todo Если расход добавил не этот пользователь (запретить редактирование)
 
-        Optional<Balance> link = balanceRepository.findById(id);
 
         // todo искать также по пользователю
         Balance transaction = balanceRepository.findById(id).orElseThrow();
         transaction.setAmount(-transaction.getAmount());
 
-//        ArrayList<Balance> res = new ArrayList<>();
-//        link.ifPresent(res::add);
         model.addAttribute("transaction", transaction);
 
         // Счета
@@ -538,7 +532,7 @@ public class BalanceController {
     }
 
     @GetMapping("/balance/{id}/delete")
-    public String linkLinkRemove(
+    public String transactionDelete(
             HttpServletRequest request,
             @PathVariable(value = "id") long id,
             Model model
