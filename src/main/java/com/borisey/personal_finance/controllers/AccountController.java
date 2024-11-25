@@ -82,9 +82,16 @@ public class AccountController {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         String username = currentUser.getUsername();
+        Long userId = currentUser.getId();
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Счета
+
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Добавление счета");
