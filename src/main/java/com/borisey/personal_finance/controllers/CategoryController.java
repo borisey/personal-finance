@@ -138,7 +138,35 @@ public class CategoryController {
 
     // Добавление категории дохода
     @GetMapping("/category/income/add")
-    public String categoryIncomeAdd(Model model) {
+    public String categoryIncomeAdd(
+            HttpServletRequest request,
+            Model model
+    ) {
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -148,8 +176,8 @@ public class CategoryController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
-        // Передаю в вид все категории доходов
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории доходов todo сделать константу
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид метатэги
@@ -163,7 +191,35 @@ public class CategoryController {
 
     // Добавление категории расхода
     @GetMapping("/category/expense/add")
-    public String categoryExpenseAdd(Model model) {
+    public String categoryExpenseAdd(
+            HttpServletRequest request,
+            Model model
+    ) {
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -173,8 +229,8 @@ public class CategoryController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
-        // Передаю в вид все категории доходов
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов todo сделать константу
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Передаю в вид метатэги
