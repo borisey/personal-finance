@@ -91,7 +91,6 @@
                     <h3 style="text-align: center" th:each="userIncome : ${allUserIncome}">
                         <p th:text="'Доходы за указанный период: ' + ${#numbers.formatDecimal(userIncome, 1, 2)}" />
                     </h3>
-
                 </div>
                 <div class="col">
                     <h3 style="text-align: center" th:each="userExpense : ${allUserExpense}">
