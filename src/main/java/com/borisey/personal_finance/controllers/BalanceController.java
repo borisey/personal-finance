@@ -6,6 +6,8 @@ import com.borisey.personal_finance.repo.BalanceRepository;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.repo.TypeRepository;
 import com.borisey.personal_finance.services.UserService;
+import io.micrometer.common.util.StringUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -33,14 +35,45 @@ public class BalanceController {
 
     // Страница счетов пользователя
     @GetMapping("/transactions")
-    public String getTransactions(Model model) {
+    public String getTransactions(HttpServletRequest request, Model model) {
+
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
+
+        // Передаю в вид даты для запроса аналитики
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
+
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
         // Передаю в вид все транзакции пользователя
-        Iterable<Balance> allUserTransactions = balanceRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "date", "id"));
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Передаю в вид имя пользователя
