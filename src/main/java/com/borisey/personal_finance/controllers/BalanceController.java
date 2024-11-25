@@ -155,8 +155,10 @@ public class BalanceController {
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
+        // todo доход сделать константу
+        Type type = typeRepository.findById(1L).orElseThrow();
         // Передаю в вид все транзакции пользователя
-        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdTypeFromTo(userId, type, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Передаю в вид имя пользователя
@@ -221,8 +223,10 @@ public class BalanceController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
+        // todo доход сделать константу
+        Type type = typeRepository.findById(2L).orElseThrow();
         // Передаю в вид все транзакции пользователя
-        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdTypeFromTo(userId, type, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
         model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Категории

@@ -18,6 +18,9 @@ public interface BalanceRepository extends CrudRepository<Balance, Long> {
     @Query(value = "SELECT b FROM Balance b WHERE b.userId = ?1 AND b.date >= ?2 AND b.date <= ?3")
     Iterable<Balance> findByUserIdDateTimeFromDateTimeTo(Long userId, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Sort colName);
 
+    @Query(value = "SELECT b FROM Balance b WHERE b.userId = ?1 AND b.type = ?2 AND b.date >= ?3 AND b.date <= ?4")
+    Iterable<Balance> findByUserIdTypeFromTo(Long userId, Type type, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Sort colName);
+
     @Query(value = "SELECT sum(amount) FROM Balance b WHERE b.userId = ?1 AND b.type = ?2")
     Iterable<Balance> findSumByUserIdTypeId(Long userId, Type type);
 
