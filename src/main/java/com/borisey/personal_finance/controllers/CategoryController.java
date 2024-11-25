@@ -106,11 +106,13 @@ public class CategoryController {
 
     // Добавление новой категории доходов (зарплата, вклад) или расходов (еда, развлечения)
     @PostMapping("/category/add")
-    public String accountAccountAdd(@RequestParam String title, @Nullable Byte typeId) {
-        Category category = new Category();
-        LocalDateTime currentDateTime = LocalDateTime.now();
-        category.setTitle(title);
-        category.setTypeId(typeId);
+    public String accountAccountAdd(
+            HttpServletRequest request,
+            @RequestParam String title, @Nullable Byte typeId) {
+            Category category = new Category();
+            LocalDateTime currentDateTime = LocalDateTime.now();
+            category.setTitle(title);
+            category.setTypeId(typeId);
 
         // Сохраняю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -124,7 +126,9 @@ public class CategoryController {
         category.setUpdated(currentDateTime);
         categoryRepository.save(category);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Добавление категории дохода
@@ -199,9 +203,11 @@ public class CategoryController {
     }
 
     @PostMapping("/category/{id}/edit")
-    public String categoryEdit(@PathVariable(value = "id") Long id,
-                              @RequestParam
-                              String title
+    public String categoryEdit(
+            HttpServletRequest request,
+            @PathVariable(value = "id") Long id,
+            @RequestParam
+            String title
     ) {
         // todo проверять пользователя
         // Сохраняю категорию
@@ -214,11 +220,17 @@ public class CategoryController {
 
         categoryRepository.save(category);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/category/{id}/delete")
-    public String linkCategoryDelete(@PathVariable(value = "id") long id, Model model) {
+    public String linkCategoryDelete(
+            HttpServletRequest request,
+            @PathVariable(value = "id") long id,
+            Model model
+    ) {
 
         // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
         Category category = categoryRepository.findById(id).orElseThrow();
@@ -226,6 +238,8 @@ public class CategoryController {
         // todo доработать Если транзакцию добавил не этот пользователь
         categoryRepository.delete(category);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 }

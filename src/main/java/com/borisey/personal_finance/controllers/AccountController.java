@@ -3,6 +3,7 @@ package com.borisey.personal_finance.controllers;
 import com.borisey.personal_finance.models.*;
 import com.borisey.personal_finance.repo.AccountRepository;
 import com.borisey.personal_finance.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
@@ -22,7 +23,11 @@ public class AccountController {
     private UserService userService;
 
     @PostMapping("/account/add")
-    public String accountAccountAdd(@RequestParam String title, Double amount) {
+    public String accountAccountAdd(
+            HttpServletRequest request,
+            @RequestParam String title,
+            Double amount
+    ) {
         Account account = new Account();
 
         // todo сделать проверку, что запись с таким названием не вносится повторно
@@ -41,7 +46,9 @@ public class AccountController {
 
         accountRepository.save(account);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Страница счетов пользователя
@@ -120,10 +127,12 @@ public class AccountController {
     }
 
     @PostMapping("/account/{id}/edit")
-    public String accountEdit(@PathVariable(value = "id") Long id,
-                             @RequestParam
-                             Double amount,
-                             String title
+    public String accountEdit(
+            HttpServletRequest request,
+            @PathVariable(value = "id") Long id,
+            @RequestParam
+            Double amount,
+            String title
     ) {
         // todo проверять пользователя
         // Сохраняю счет
@@ -132,11 +141,17 @@ public class AccountController {
         account.setTitle(title);
         accountRepository.save(account);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/account/{id}/delete")
-    public String linkLinkRemove(@PathVariable(value = "id") long id, Model model) {
+    public String linkLinkRemove(
+            HttpServletRequest request,
+            @PathVariable(value = "id") long id,
+            Model model
+    ) {
 
         // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
         Account account = accountRepository.findById(id).orElseThrow();
@@ -145,7 +160,9 @@ public class AccountController {
 
         accountRepository.delete(account);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
 }

@@ -176,7 +176,13 @@ public class BalanceController {
 
     // Пополнение
     @PostMapping("/transaction/add-income")
-    public String balanceAddIncome(@RequestParam Long categoryId, Long accountId, Double amount, String date) {
+    public String balanceAddIncome(
+            HttpServletRequest request,
+            @RequestParam Long categoryId,
+            Long accountId,
+            Double amount,
+            String date
+    ) {
         Balance balance = new Balance();
 
         // Сохраняю категорию
@@ -211,12 +217,20 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Списание
     @PostMapping("/transaction/add-expense")
-    public String balanceAddExpense(@RequestParam Long categoryId, Long accountId, String date, Double amount) {
+    public String balanceAddExpense(
+            HttpServletRequest request,
+            @RequestParam Long categoryId,
+            Long accountId,
+            String date,
+            Double amount
+    ) {
         Balance balance = new Balance();
 
         // Сохраняю категорию
@@ -251,7 +265,9 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Редактирование дохода
@@ -298,13 +314,15 @@ public class BalanceController {
     }
 
     @PostMapping("/transaction/income/{id}/edit")
-    public String incomeEdit(@PathVariable(value = "id") Long id,
-                                 @RequestParam
-                                 Long typeId,
-                                 Double amount,
-                                 Long categoryId,
-                                 Long accountId,
-                                 String date
+    public String incomeEdit(
+            HttpServletRequest request,
+            @PathVariable(value = "id") Long id,
+            @RequestParam
+            Long typeId,
+            Double amount,
+            Long categoryId,
+            Long accountId,
+            String date
     ) {
         Balance transaction = balanceRepository.findById(id).orElseThrow();
 
@@ -337,7 +355,9 @@ public class BalanceController {
 
         balanceRepository.save(transaction);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Редактирование расхода
@@ -386,13 +406,15 @@ public class BalanceController {
 
     // Изменение расхода
     @PostMapping("/transaction/expense/{id}/edit")
-    public String expenseEdit(@PathVariable(value = "id") Long id,
-                             @RequestParam
-                             Long typeId,
-                             Double amount,
-                             Long categoryId,
-                             Long accountId,
-                             String date
+    public String expenseEdit(
+            HttpServletRequest request,
+            @PathVariable(value = "id") Long id,
+            @RequestParam
+            Long typeId,
+            Double amount,
+            Long categoryId,
+            Long accountId,
+            String date
     ) {
         Balance transaction = balanceRepository.findById(id).orElseThrow();
 
@@ -426,11 +448,17 @@ public class BalanceController {
 
         balanceRepository.save(transaction);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/balance/{id}/delete")
-    public String linkLinkRemove(@PathVariable(value = "id") long id, Model model) {
+    public String linkLinkRemove(
+            HttpServletRequest request,
+            @PathVariable(value = "id") long id,
+            Model model
+    ) {
 
         // todo искать также по ID пользователя, чтобы запретить удалить чужие записи
         Balance transaction = balanceRepository.findById(id).orElseThrow();
@@ -439,7 +467,9 @@ public class BalanceController {
 
         balanceRepository.delete(transaction);
 
-        return "redirect:/my";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Привожу строку с датой к формату LocalDateTime

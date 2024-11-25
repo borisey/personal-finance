@@ -2,6 +2,7 @@ package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.services.UserService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -25,8 +26,10 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUser(@RequestParam (required = true, defaultValue = "!@") String username,
-                               @RequestParam (required = true, defaultValue = "!@") String password) {
+    public String registerUser(
+            @RequestParam (required = true, defaultValue = "!@") String username,
+            @RequestParam (required = true, defaultValue = "!@") String password
+    ) {
         if (!(username.equals("!@") & password.equals("!@"))) {
             System.out.println(username + " " + password);
             User user = new User();
@@ -35,7 +38,7 @@ public class RegistrationController {
             if (userService.saveUser(user)) {
                 System.out.println("GOOD");
 
-                return "redirect:/register-success";
+                return "redirect:/my";
             } else {
                 System.out.println("BAD");
             }
