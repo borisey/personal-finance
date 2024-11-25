@@ -71,7 +71,7 @@ public class AnalyticsController {
         model.addAttribute("username", username);
 
         // Получаю все категории доходов
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.INCOME, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         // Передаю в вид все категории расходов
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
@@ -88,7 +88,7 @@ public class AnalyticsController {
         model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Получаю все категории расходов
-        Iterable<Category> allUserExpenseCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserExpenseCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.EXPENSE, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         // Передаю в вид все категории расходов
         model.addAttribute("allUserExpenseCategories", allUserExpenseCategories);
 
@@ -105,12 +105,12 @@ public class AnalyticsController {
         model.addAttribute("dateTo", dateTo);
 
         // Общая сумма доходов
-        Type typeIncome = typeRepository.findById(1L).orElseThrow(); // todo сделать константу
+        Type typeIncome = typeRepository.findById(Type.INCOME).orElseThrow();
         Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeIncome, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserIncome", allUserIncome);
 
         // Общая сумма расходов
-        Type typeExpense = typeRepository.findById(2L).orElseThrow(); // todo сделать константу
+        Type typeExpense = typeRepository.findById(Type.EXPENSE).orElseThrow();
         Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeExpense, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserExpense", allUserExpense);
 

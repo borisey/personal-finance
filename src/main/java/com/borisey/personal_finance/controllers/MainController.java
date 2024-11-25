@@ -72,12 +72,12 @@ public class MainController {
 
         // Категории
 
-        // Передаю в вид все категории доходов todo сделать константу
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.INCOME, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
-        // Передаю в вид все категории расходов todo сделать константу
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.EXPENSE, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Счета
@@ -87,12 +87,12 @@ public class MainController {
         model.addAttribute("allUserAccounts", allUserAccounts);
 
         // Общая сумма доходов
-        Type typeIncome = typeRepository.findById(1L).orElseThrow(); // todo сделать константу
+        Type typeIncome = typeRepository.findById(Type.INCOME).orElseThrow();
         Iterable<Balance> allUserIncome = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeIncome, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserIncome", allUserIncome);
 
         // Общая сумма расходов
-        Type typeExpense = typeRepository.findById(2L).orElseThrow(); // todo сделать константу
+        Type typeExpense = typeRepository.findById(Type.EXPENSE).orElseThrow();
         Iterable<Balance> allUserExpense = balanceRepository.findSumByUserIdTypeIdDateTimeFromDateTimeTo(userId, typeExpense, dateTimeFrom, dateTimeTo);
         model.addAttribute("allUserExpense", allUserExpense);
 

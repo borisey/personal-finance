@@ -8,6 +8,8 @@ import java.util.List;
 
 @Entity
 public class Type {
+    final public static Byte INCOME  = 1;
+    final public static Byte EXPENSE = 2;
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)

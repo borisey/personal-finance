@@ -1,6 +1,7 @@
 package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.Category;
+import com.borisey.personal_finance.models.Type;
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.repo.CategoryRepository;
 import com.borisey.personal_finance.services.UserService;
@@ -66,12 +67,12 @@ public class CategoryController {
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // Передаю в вид все категории доходов todo сделать константу
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.INCOME, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
-        // Передаю в вид все категории расходов todo сделать константу
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.EXPENSE, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Передаю в вид имя пользователя
@@ -176,8 +177,8 @@ public class CategoryController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
-        // Передаю в вид все категории доходов todo сделать константу
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.INCOME, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид метатэги
@@ -229,8 +230,8 @@ public class CategoryController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
-        // Передаю в вид все категории расходов todo сделать константу
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, Type.EXPENSE, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Передаю в вид метатэги

@@ -2,7 +2,6 @@ package com.borisey.personal_finance.controllers;
 
 import com.borisey.personal_finance.models.User;
 import com.borisey.personal_finance.services.UserService;
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
