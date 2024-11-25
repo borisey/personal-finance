@@ -122,12 +122,42 @@ public class BalanceController {
 
     // Добавление дохода
     @GetMapping("/transaction/income/add")
-    public String transactionIncomeAdd(Model model) {
+    public String transactionIncomeAdd(HttpServletRequest request, Model model) {
+
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
+
+        // Передаю в вид все транзакции пользователя
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
+        model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
@@ -155,7 +185,33 @@ public class BalanceController {
 
     // Добавление расхода
     @GetMapping("/transaction/expense/add")
-    public String transactionExpenseAdd(Model model) {
+    public String transactionExpenseAdd(HttpServletRequest request, Model model) {
+
+        // todo вынести метод в другой класс
+        BalanceController balanceController = new BalanceController();
+
+        String dateFrom = request.getParameter("dateFrom");
+        String dateTo = request.getParameter("dateTo");
+        LocalDateTime dateTimeFrom;
+        LocalDateTime dateTimeTo;
+
+        LocalDateTime currentDateTime = LocalDateTime.now();
+
+        if (StringUtils.isEmpty(dateFrom)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
+            dateTimeFrom = currentDateTime.withDayOfMonth(1);
+        } else {
+            dateTimeFrom = balanceController.formatDate(dateFrom);
+        }
+
+        if (StringUtils.isEmpty(dateTo)) {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+            dateTimeTo = currentDateTime;
+            dateTo = currentDateTime.format(formatter);
+        } else {
+            dateTimeTo = balanceController.formatDate(dateTo);
+        }
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
@@ -164,6 +220,10 @@ public class BalanceController {
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Передаю в вид все транзакции пользователя
+        Iterable<Balance> allUserTransactions = balanceRepository.findByUserIdDateTimeFromDateTimeTo(userId, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "date", "id"));
+        model.addAttribute("allUserTransactions", allUserTransactions);
 
         // Категории
 
@@ -229,9 +289,7 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        String referrer = request.getHeader("Referer");
-
-        return "redirect:" + referrer;
+        return "redirect:/transactions";
     }
 
     // Списание
@@ -277,9 +335,7 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        String referrer = request.getHeader("Referer");
-
-        return "redirect:" + referrer;
+        return "redirect:/transactions";
     }
 
     // Редактирование дохода
@@ -367,9 +423,7 @@ public class BalanceController {
 
         balanceRepository.save(transaction);
 
-        String referrer = request.getHeader("Referer");
-
-        return "redirect:" + referrer;
+        return "redirect:/transactions";
     }
 
     // Редактирование расхода
@@ -462,7 +516,7 @@ public class BalanceController {
 
         String referrer = request.getHeader("Referer");
 
-        return "redirect:" + referrer;
+        return "redirect:/transactions";
     }
 
     @GetMapping("/balance/{id}/delete")
@@ -479,9 +533,7 @@ public class BalanceController {
 
         balanceRepository.delete(transaction);
 
-        String referrer = request.getHeader("Referer");
-
-        return "redirect:" + referrer;
+        return "redirect:/transactions";
     }
 
     // Привожу строку с датой к формату LocalDateTime

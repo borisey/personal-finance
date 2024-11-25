@@ -24,7 +24,7 @@
             <main>
                 <div class="container mt-5 mb-5">
                     <div th:each="el : ${transaction}">
-                        <form th:action="'/expense/' + ${el.id} + '/edit'" method="post">
+                        <form th:action="'/transaction/expense/' + ${el.id} + '/edit'" method="post">
                             <input type="hidden" name="_csrf" th:value="${_csrf.token}"/>
 
                             <select th:required="required" class="form-control" id="addExpenseCategoryId" name="categoryId">
