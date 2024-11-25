@@ -109,10 +109,15 @@ public class CategoryController {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Добавление категории дохода");
@@ -129,10 +134,15 @@ public class CategoryController {
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
+        Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
+
+        // Передаю в вид все категории доходов
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Передаю в вид метатэги
         model.addAttribute("h1", "Добавление категории расхода");
