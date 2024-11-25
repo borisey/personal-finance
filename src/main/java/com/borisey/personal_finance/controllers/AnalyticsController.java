@@ -42,9 +42,6 @@ public class AnalyticsController {
         LocalDateTime dateTimeFrom;
         LocalDateTime dateTimeTo;
 
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
         LocalDateTime currentDateTime = LocalDateTime.now();
 
         if (StringUtils.isEmpty(dateFrom)) {

@@ -45,4 +45,9 @@ public class RegistrationController {
         return "redirect:/my";
     }
 
+    @GetMapping("/register-success")
+    public String registerSuccess() {
+        return "register-success";
+    }
+
 }

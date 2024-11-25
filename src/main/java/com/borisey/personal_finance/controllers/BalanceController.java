@@ -35,9 +35,6 @@ public class BalanceController {
     @GetMapping("/transactions")
     public String getTransactions(HttpServletRequest request, Model model) {
 
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
         LocalDateTime dateTimeFrom;
@@ -122,9 +119,6 @@ public class BalanceController {
     @GetMapping("/transaction/income/add")
     public String transactionIncomeAdd(HttpServletRequest request, Model model) {
 
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
         LocalDateTime dateTimeFrom;
@@ -189,9 +183,6 @@ public class BalanceController {
     // Добавление расхода
     @GetMapping("/transaction/expense/add")
     public String transactionExpenseAdd(HttpServletRequest request, Model model) {
-
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
 
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");

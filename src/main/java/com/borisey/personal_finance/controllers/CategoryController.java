@@ -32,8 +32,6 @@ public class CategoryController {
             HttpServletRequest request,
             Model model
     ) {
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
 
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
@@ -139,8 +137,6 @@ public class CategoryController {
             HttpServletRequest request,
             Model model
     ) {
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
 
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
@@ -192,9 +188,6 @@ public class CategoryController {
             HttpServletRequest request,
             Model model
     ) {
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
         LocalDateTime dateTimeFrom;

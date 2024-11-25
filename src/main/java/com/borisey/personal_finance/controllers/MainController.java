@@ -36,9 +36,6 @@ public class MainController {
             HttpServletRequest request,
             Model model
     ) {
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
         String dateFrom = request.getParameter("dateFrom");
         String dateTo = request.getParameter("dateTo");
         LocalDateTime dateTimeFrom;
@@ -120,12 +117,6 @@ public class MainController {
     @GetMapping("/")
     public String accountHome(Model model) {
         return "landing";
-    }
-
-    // todo перенести в registration controller
-    @GetMapping("/register-success")
-    public String registerSuccess() {
-        return "register-success";
     }
 
     @GetMapping("/deletion-disallow")
