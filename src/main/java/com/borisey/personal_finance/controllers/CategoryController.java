@@ -28,48 +28,18 @@ public class CategoryController {
 
     // Страница категорий пользователя
     @GetMapping("/categories")
-    public String getCategories(HttpServletRequest request, Model model) {
+    public String getCategories(Model model) {
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
         String username = currentUser.getUsername();
 
-        // todo вынести метод в другой класс
-        BalanceController balanceController = new BalanceController();
-
-        String dateFrom = request.getParameter("dateFrom");
-        String dateTo = request.getParameter("dateTo");
-        LocalDateTime dateTimeFrom;
-        LocalDateTime dateTimeTo;
-
-        LocalDateTime currentDateTime = LocalDateTime.now();
-
-        if (StringUtils.isEmpty(dateFrom)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            dateFrom = currentDateTime.withDayOfMonth(1).format(formatter);
-            dateTimeFrom = currentDateTime.withDayOfMonth(1);
-        } else {
-            dateTimeFrom = balanceController.formatDate(dateFrom);
-        }
-
-        if (StringUtils.isEmpty(dateTo)) {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-            dateTimeTo = currentDateTime;
-            dateTo = currentDateTime.format(formatter);
-        } else {
-            dateTimeTo = balanceController.formatDate(dateTo);
-        }
-
-        // Передаю в вид даты для запроса аналитики
-        model.addAttribute("dateFrom", dateFrom);
-        model.addAttribute("dateTo", dateTo);
-
         // Передаю в вид все категории доходов todo сделать константу
-        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 1, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         // Передаю в вид все категории расходов todo сделать константу
-        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeId(userId, (byte) 2, Sort.by(Sort.Direction.DESC, "id"));
         model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
 
         // Передаю в вид имя пользователя
@@ -106,13 +76,15 @@ public class CategoryController {
 
     // Добавление новой категории доходов (зарплата, вклад) или расходов (еда, развлечения)
     @PostMapping("/category/add")
-    public String accountAccountAdd(
+    public String categoryAdd(
             HttpServletRequest request,
-            @RequestParam String title, @Nullable Byte typeId) {
-            Category category = new Category();
-            LocalDateTime currentDateTime = LocalDateTime.now();
-            category.setTitle(title);
-            category.setTypeId(typeId);
+            @RequestParam String title, @Nullable Byte typeId
+    )
+    {
+        Category category = new Category();
+        LocalDateTime currentDateTime = LocalDateTime.now();
+        category.setTitle(title);
+        category.setTypeId(typeId);
 
         // Сохраняю ID текущего пользователя
         User currentUser = userService.getCurrentUser();

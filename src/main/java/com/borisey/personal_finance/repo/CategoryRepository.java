@@ -21,6 +21,6 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
             , nativeQuery = true)
     Iterable<Category> findByUserIdAndTypeIdAmount(Long userId, Byte typeId, LocalDateTime dateTimeFrom, LocalDateTime dateTimeTo, Sort colName);
 
-//    @Query(value = "SELECT b.* FROM balance b WHERE b.userId = ?1 AND b.typeId = ?2")
+//    @Query(value = "SELECT b FROM Balance b WHERE b.userId = ?1 AND b.typeId = ?2", nativeQuery = true)
     Iterable<Category> findByUserIdAndTypeId(Long userId, Byte typeId, Sort colName);
 }
