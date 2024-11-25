@@ -293,7 +293,9 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/transactions";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Списание
@@ -339,7 +341,9 @@ public class BalanceController {
         // todo сделать проверку, что запись не вносится повторно
         balanceRepository.save(balance);
 
-        return "redirect:/transactions";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Редактирование дохода
@@ -427,7 +431,9 @@ public class BalanceController {
 
         balanceRepository.save(transaction);
 
-        return "redirect:/transactions";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Редактирование расхода
@@ -520,7 +526,7 @@ public class BalanceController {
 
         String referrer = request.getHeader("Referer");
 
-        return "redirect:/transactions";
+        return "redirect:" + referrer;
     }
 
     @GetMapping("/balance/{id}/delete")
@@ -537,7 +543,9 @@ public class BalanceController {
 
         balanceRepository.delete(transaction);
 
-        return "redirect:/transactions";
+        String referrer = request.getHeader("Referer");
+
+        return "redirect:" + referrer;
     }
 
     // Привожу строку с датой к формату LocalDateTime
