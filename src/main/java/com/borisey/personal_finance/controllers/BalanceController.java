@@ -150,6 +150,10 @@ public class BalanceController {
             dateTimeTo = balanceController.formatDate(dateTo);
         }
 
+        // Передаю в вид даты для запроса аналитики
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
+
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
         Long userId = currentUser.getId();
@@ -214,6 +218,10 @@ public class BalanceController {
         } else {
             dateTimeTo = balanceController.formatDate(dateTo);
         }
+
+        // Передаю в вид даты для запроса аналитики
+        model.addAttribute("dateFrom", dateFrom);
+        model.addAttribute("dateTo", dateTo);
 
         // Получаю ID текущего пользователя
         User currentUser = userService.getCurrentUser();
