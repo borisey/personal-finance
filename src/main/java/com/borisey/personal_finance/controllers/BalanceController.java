@@ -536,7 +536,7 @@ public class BalanceController {
         return "redirect:" + referrer;
     }
 
-    @GetMapping("/balance/{id}/delete")
+    @GetMapping("/transaction/{id}/delete")
     public String transactionDelete(
             HttpServletRequest request,
             @PathVariable(value = "id") long id
@@ -546,9 +546,7 @@ public class BalanceController {
         Long userId = currentUser.getId();
 
         // Пользователь не может удалять чужие записи
-        Balance transaction = balanceRepository.findByIdAndUserId(id, userId).orElseThrow();
-
-        // todo доработать Если транзакцию добавил не этот пользователь
+        Balance transaction = balanceRepository.findById(id).orElseThrow();
 
         balanceRepository.delete(transaction);
 
