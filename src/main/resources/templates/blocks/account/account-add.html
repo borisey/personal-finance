@@ -1,5 +1,5 @@
 <div th:fragment="account-add" xmlns:th="http://www.w3.org/1999/xhtml">
-    <h3 style="text-align: center">Добавить счет</h3>
+    <h4 style="text-align: center">Добавить счет</h4>
     <form action="/account/add" method="post">
         <input type="hidden" name="_csrf" th:value="${_csrf.token}" />
         <input th:required="required" type="text" name="title" placeholder="Введите название счета (карта Сбера, вклад в Сбере, инвестиционный счет)" class="form-control"><br>
