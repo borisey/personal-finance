@@ -79,6 +79,18 @@ public class BalanceController {
         // Передаю в вид имя пользователя
         model.addAttribute("username", username);
 
+        // Передаю в вид все счета пользователя
+        Iterable<Account> allUserAccounts = accountRepository.findByUserId(userId, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserAccounts", allUserAccounts);
+
+        // Передаю в вид все категории доходов todo сделать константу
+        Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
+
+        // Передаю в вид все категории расходов todo сделать константу
+        Iterable<Category> allUserExpensesCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        model.addAttribute("allUserExpensesCategories", allUserExpensesCategories);
+
         // Передаю в вид метатэги
         model.addAttribute("h1", "Транзакции");
         model.addAttribute("metaTitle", "Транзакции");
