@@ -72,6 +72,8 @@ public class AnalyticsController {
 
         // Получаю все категории доходов
         Iterable<Category> allUserIncomeCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 1, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов
+        model.addAttribute("allUserIncomeCategories", allUserIncomeCategories);
 
         Map<String, Double> chartIncomeData = new TreeMap<>();
         for (Category category : allUserIncomeCategories) {
@@ -83,6 +85,8 @@ public class AnalyticsController {
 
         // Получаю все категории расходов
         Iterable<Category> allUserExpenseCategories = categoryRepository.findByUserIdAndTypeIdAmount(userId, (byte) 2, dateTimeFrom, dateTimeTo, Sort.by(Sort.Direction.DESC, "id"));
+        // Передаю в вид все категории расходов
+        model.addAttribute("allUserExpenseCategories", allUserExpenseCategories);
 
         Map<String, Double> chartExpenseData = new TreeMap<>();
         for (Category category : allUserExpenseCategories) {

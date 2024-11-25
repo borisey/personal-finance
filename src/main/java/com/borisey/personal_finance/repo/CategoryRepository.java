@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 public interface CategoryRepository extends CrudRepository<Category, Long> {
     Iterable<Category> findAll(Sort colName);
 
-    @Query(value = "SELECT category.id, category.title, category.created, category.parent_id, category.type_id, category.updated, category.user_id, sum(t.amount) as allamount "
+    @Query(value = "SELECT category.id, category.budget, category.title, category.created, category.parent_id, category.type_id, category.updated, category.user_id, sum(t.amount) as allamount "
             + " FROM category category "
             + " LEFT JOIN balance t ON (t.category_id=category.id) "
             + " WHERE category.user_id=?1 "
