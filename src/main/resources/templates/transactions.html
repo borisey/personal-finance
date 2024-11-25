@@ -21,6 +21,10 @@
                 <h1 class="h2" th:text="${h1}" />
             </div>
 
+            <h2 style="text-align: center">
+                Выберите даты представления аналитики
+            </h2>
+
             <form action="/transactions" method="get">
 
                 <input th:required="required" type="date" name="dateFrom" placeholder="Выберите дату начала" th:value="${dateFrom}" id="dateFrom" class="form-control"/><br>
