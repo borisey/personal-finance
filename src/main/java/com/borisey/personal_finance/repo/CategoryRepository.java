@@ -13,7 +13,7 @@ public interface CategoryRepository extends CrudRepository<Category, Long> {
 
     Optional<Category> findByIdAndUserId(Long id, Long userId);
 
-    @Query(value = "SELECT category.id, category.budget, category.title, category.created, category.parent_id, category.type_id, category.updated, category.user_id, IFNULL(SUM(balance.amount), 0) as allamount "
+    @Query(value = "SELECT category.id, category.budget, category.title, category.created, category.type_id, category.updated, category.user_id, IFNULL(SUM(balance.amount), 0) as allamount "
             + " FROM category category "
             + " LEFT JOIN balance balance ON (balance.category_id=category.id)"
             + " WHERE category.user_id=?1 "
