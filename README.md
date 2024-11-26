@@ -1,12 +1,13 @@
 <h1>Система управления личными финансами</h1>
 
 <h2>Пример реализации</h2>
-<p>Пример реализации приложения можно посмотреть по ссылке: <a href=""></a></p>
+<p>Пример реализации приложения можно посмотреть по ссылке: <a href="https://walletus.net/">walletus.net</a></p>
 
 <h2>Быстрый старт</h2>
-<p>1. Скопируйте репозиторий проекта в определенную директорию: выполните команду <strong>git clone git@github.com:borisey/personal-finance.git ./</strong></p>
-<p>2. Установите MySQL в Docker-контейнере: выполните команду <strong>docker-compose up</strong></p>
-<p>3. Запустите приложение в IDE IDEA: откройте файл PersonalFinanceApplication.java и выполните команду "RUN"</p>
+<p>1. Создайте директорию проекта, например, "personal-finance"</p>
+<p>2. Скопируйте репозиторий проекта в директорию проекта: выполните команду <strong>git clone git@github.com:borisey/personal-finance.git ./</strong></p>
+<p>3. Установите MySQL в Docker-контейнере: в консоли (в корневой директории проекта) выполните команду <strong>docker-compose up</strong></p>
+<p>4. Запустите приложение в IDE IDEA: откройте файл <strong>/src/main/java/com/borisey/personal_finance/PersonalFinanceApplication.java</strong> и выполните команду <strong>"RUN"</strong></p>
 
 <h2>Описание приложения</h2>
 <h3>1. Реализация авторизации пользователей</h3>
