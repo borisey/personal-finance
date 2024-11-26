@@ -9,7 +9,7 @@
 <p>3. Установите MySQL в Docker-контейнере: в консоли (в корневой директории проекта) выполните команду <strong>docker-compose up</strong></p>
 <p>4. Запустите приложение в IDE IDEA: откройте файл <strong>/src/main/java/com/borisey/personal_finance/PersonalFinanceApplication.java</strong> и выполните команду <strong>"RUN"</strong></p>
 <p>5. Зарегистрируйтесь в приложении (по ссылке: <a href="https://walletus.net/register">walletus.net/register</a>)</p>
-<p>6. Авторизуйтесь в приложении, использую логин и пароль, указанные при регистрации (по ссылке: <a href="https://walletus.net/login">walletus.net/login</a>)</p>
+<p>6. Авторизуйтесь в приложении, используя логин и пароль, указанные при регистрации (по ссылке: <a href="https://walletus.net/login">walletus.net/login</a>)</p>
 <p>7. Создайте <strong>счет</strong> в Дашборде или в соответствующем разделе меню</p>
 <p>8. Создайте <strong>категорию дохода</strong> в Дашборде или в соответствующем разделе меню</p>
 <p>9. Создайте <strong>категорию расхода</strong> в Дашборде или в соответствующем разделе меню</p>
