@@ -8,7 +8,10 @@ import java.util.List;
 
 @Entity
 public class Type {
+    
+    // Доходы
     final public static Byte INCOME  = 1;
+    // Расходы
     final public static Byte EXPENSE = 2;
 
     @Id
