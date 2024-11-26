@@ -5,7 +5,7 @@
 
 <h2>Быстрый старт</h2>
 <p>1. Создайте директорию проекта, например, "personal-finance"</p>
-<p>2. Скопируйте репозиторий проекта в директорию проекта: выполните команду <strong>git clone git@github.com:borisey/personal-finance.git ./</strong></p>
+<p>2. Перейдите в директорию проекта в консоли и скопируйте репозиторий проекта в директорию проекта: выполните команду <strong>git clone git@github.com:borisey/personal-finance.git ./</strong></p>
 <p>3. Установите MySQL в Docker-контейнере: в консоли (в корневой директории проекта) выполните команду <strong>docker-compose up</strong></p>
 <p>4. Запустите приложение в IDE IDEA: откройте файл <strong>/src/main/java/com/borisey/personal_finance/PersonalFinanceApplication.java</strong> и выполните команду <strong>"RUN"</strong></p>
 <p>5. Зарегистрируйтесь в приложении (по ссылке: <a href="https://walletus.net/register">walletus.net/register</a>)</p>
